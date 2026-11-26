@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Install the MCP server entry and the skill for one coding agent.
-//   node scripts/install.mjs <claude|codex|antigravity|qoder|workbuddy|dsh> [--dry-run]
+//   node scripts/install.mjs <claude|codex|antigravity|qoder|workbuddy|dsh|doubao> [--dry-run]
 // It copies skills/nmr-step-walkthrough into the agent's user-level skills folder and adds a
 // "nmr-walkthrough" stdio server to the agent's MCP config. Existing entries of other servers are kept.
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync } from 'node:fs';
@@ -23,6 +23,16 @@ const TOOLS = {
   qoder:       { skills: join(home, '.qoder', 'skills'),             json: join(home, '.qoder', 'settings.json') },
   workbuddy:   { skills: join(home, '.workbuddy', 'skills'),         json: join(home, '.workbuddy', 'mcp.json') },
   dsh:         { hint: `dsh plugin --profile desktop add "${root}"   (quit the DSH desktop app first; the plugin brings both the server and the skill)` },
+  doubao:      { hint: [
+    '豆包工作 (Doubao Work) is set up in its own window, not through config files:',
+    `  1. Skill: open 豆包电脑版 → 「技能 · 连接器 · 伙伴」 → 「我的技能」 → 「新建」 → 「上传技能」, then drag in this folder:`,
+    `       ${join(root, 'standalone-skill', 'nmr-step-walkthrough')}`,
+    '     It is self-contained (SKILL.md plus the builder), so the skill works without the connector.',
+    '  2. Connector (optional): start the server over HTTP and keep it running:',
+    `       node "${server}" --http 8765`,
+    '     then 「新建」 → 「新建自定义连接器」: 传输类型 HTTP, 服务器 URL http://127.0.0.1:8765/mcp',
+    '     If Doubao Work cannot reach a local address, host the server at a public HTTPS URL and set NMR_MCP_TOKEN (sent as "Authorization: Bearer <token>").',
+  ].join('\n  ') },
 };
 
 const t = TOOLS[tool];

@@ -1,0 +1,939 @@
+{
+ "title": {
+  "zh": "由 1D 与 2D NMR 推出 C_{8}H_{8}O_{3} 的结构",
+  "en": "Solving C_{8}H_{8}O_{3} from 1D and 2D NMR"
+ },
+ "shortTitle": "C8H8O3 NMR walkthrough",
+ "formula": "C8H8O3",
+ "prompt": {
+  "zh": "CDCl_{3} 中测得 ^{1}H、^{13}C、HMQC、HMBC（500 MHz）。推出结构，说明三个取代基各在哪个位置，并归属每一个峰。",
+  "en": "^{1}H, ^{13}C, HMQC and HMBC in CDCl_{3} (500 MHz). Deduce the structure, place each of the three substituents, and assign every peak."
+ },
+ "note": {
+  "zh": "全部位移和 HMQC、HMBC 相关都取自下面所列来源的实测数据。带 ≈ 的 J 值是文献典型值。",
+  "en": "All shifts and the HMQC and HMBC correlations are measured data from the source listed below. J values marked ≈ are typical literature values."
+ },
+ "answer": {
+  "zh": "答案：4-羟基-3-甲氧基苯甲醛（香草醛）",
+  "en": "Answer: 4-hydroxy-3-methoxybenzaldehyde (vanillin)"
+ },
+ "sources": [
+  {
+   "label": "University of Utah, Dept. of Chemistry: vanillin NMR report (500 MHz, CDCl3, 100 mM, TMS)",
+   "url": "https://www.chemistry.utah.edu/wp-content/uploads/sites/15/2024/11/vanillin.pdf",
+   "covers": {
+    "zh": "实测：6 个 ^{1}H 位移（9.83、7.43、7.27 溶剂、7.05、6.29、3.97），8 个 ^{13}C 位移（191.0、151.7、147.2、129.9、127.6、114.4、108.7、56.1）和溶剂的 77.0；HMQC：7.05 的 H 连 114.4，7.43 处有两个 H，OH 不与任何碳相关；HMBC：3.97 只与 147.2 相关，6.29 与 114.4、147.2、151.7 相关，9.83 与 108.7、129.9 相关。该报告没有给出 J 的数值，也没有 NOESY。",
+    "en": "Measured: six ^{1}H shifts (9.83, 7.43, 7.27 solvent, 7.05, 6.29, 3.97), eight ^{13}C shifts (191.0, 151.7, 147.2, 129.9, 127.6, 114.4, 108.7, 56.1) plus the solvent at 77.0; HMQC: the 7.05 proton sits on 114.4, two protons lie at 7.43, and the OH correlates with no carbon; HMBC: 3.97 correlates only with 147.2, 6.29 with 114.4, 147.2 and 151.7, and 9.83 with 108.7 and 129.9. The report gives no J values in Hz and no NOESY."
+   }
+  },
+  {
+   "label": "UNC Pembroke: vanillin assignment sheet",
+   "url": "https://www.uncp.edu/sites/default/files/2024-04/vanillin_1.pdf",
+   "covers": {
+    "zh": "第二份独立数据，用来交叉核对：^{13}C 191.06、151.92、147.22、129.41、127.29、114.46、108.89、55.80，与上面相差都在 0.5 ppm 以内；并记录 7.03 处的双峰线距约 9 Hz（未注明场强）。",
+    "en": "A second, independent data set used as a cross-check: ^{13}C 191.06, 151.92, 147.22, 129.41, 127.29, 114.46, 108.89, 55.80, all within 0.5 ppm of the values above; it also records a doublet near 7.03 with a spacing of about 9 Hz (field strength not stated)."
+   }
+  }
+ ],
+ "molecule": {
+  "atoms": [
+   {
+    "id": "C1",
+    "x": -1.0,
+    "y": -0.0,
+    "label": "",
+    "num": "1",
+    "numAt": [
+     12.0,
+     0.0
+    ]
+   },
+   {
+    "id": "C2",
+    "x": -0.5,
+    "y": -0.866,
+    "label": "",
+    "num": "2",
+    "numAt": [
+     6.0,
+     10.4
+    ]
+   },
+   {
+    "id": "C3",
+    "x": 0.5,
+    "y": -0.866,
+    "label": "",
+    "num": "3",
+    "numAt": [
+     -6.0,
+     10.4
+    ]
+   },
+   {
+    "id": "C4",
+    "x": 1.0,
+    "y": -0.0,
+    "label": "",
+    "num": "4",
+    "numAt": [
+     -12.0,
+     0.0
+    ]
+   },
+   {
+    "id": "C5",
+    "x": 0.5,
+    "y": 0.866,
+    "label": "",
+    "num": "5",
+    "numAt": [
+     -6.0,
+     -10.4
+    ]
+   },
+   {
+    "id": "C6",
+    "x": -0.5,
+    "y": 0.866,
+    "label": "",
+    "num": "6",
+    "numAt": [
+     6.0,
+     -10.4
+    ]
+   },
+   {
+    "id": "C7",
+    "x": -2.0,
+    "y": 0,
+    "label": "CHO"
+   },
+   {
+    "id": "O3",
+    "x": 1.0,
+    "y": -1.732,
+    "label": "O"
+   },
+   {
+    "id": "C8",
+    "x": 2.0,
+    "y": -1.732,
+    "label": "CH3"
+   },
+   {
+    "id": "O4",
+    "x": 2.0,
+    "y": 0,
+    "label": "OH"
+   }
+  ],
+  "bonds": [
+   {
+    "a": "C1",
+    "b": "C2",
+    "order": 2
+   },
+   {
+    "a": "C2",
+    "b": "C3"
+   },
+   {
+    "a": "C3",
+    "b": "C4",
+    "order": 2
+   },
+   {
+    "a": "C4",
+    "b": "C5"
+   },
+   {
+    "a": "C5",
+    "b": "C6",
+    "order": 2
+   },
+   {
+    "a": "C6",
+    "b": "C1"
+   },
+   {
+    "a": "C1",
+    "b": "C7"
+   },
+   {
+    "a": "C3",
+    "b": "O3"
+   },
+   {
+    "a": "O3",
+    "b": "C8"
+   },
+   {
+    "a": "C4",
+    "b": "O4"
+   }
+  ]
+ },
+ "spectra": [
+  {
+   "id": "h1",
+   "kind": "1d",
+   "nucleus": "1H",
+   "mhz": 500,
+   "range": [
+    10.4,
+    3.4
+   ],
+   "peaks": [
+    {
+     "id": "hCHO",
+     "ppm": 9.83,
+     "mult": "s",
+     "nH": 1
+    },
+    {
+     "id": "hF",
+     "ppm": 7.43,
+     "mult": "m",
+     "nH": 2,
+     "lw": 9
+    },
+    {
+     "id": "hS",
+     "ppm": 7.27,
+     "mult": "s",
+     "intensity": 0.25
+    },
+    {
+     "id": "hD",
+     "ppm": 7.05,
+     "mult": "d",
+     "J": [
+      8.2
+     ],
+     "Jest": true,
+     "nH": 1
+    },
+    {
+     "id": "hOH",
+     "ppm": 6.29,
+     "mult": "s",
+     "nH": 1,
+     "lw": 3
+    },
+    {
+     "id": "hOMe",
+     "ppm": 3.97,
+     "mult": "s",
+     "nH": 3
+    }
+   ]
+  },
+  {
+   "id": "c13",
+   "kind": "1d",
+   "nucleus": "13C",
+   "mhz": 125,
+   "range": [
+    200,
+    45
+   ],
+   "peaks": [
+    {
+     "id": "c191",
+     "ppm": 191.0,
+     "type": "CH"
+    },
+    {
+     "id": "c152",
+     "ppm": 151.7,
+     "type": "C",
+     "intensity": 0.5
+    },
+    {
+     "id": "c147",
+     "ppm": 147.2,
+     "type": "C",
+     "intensity": 0.5
+    },
+    {
+     "id": "c130",
+     "ppm": 129.9,
+     "type": "C",
+     "intensity": 0.5
+    },
+    {
+     "id": "c128",
+     "ppm": 127.6,
+     "type": "CH"
+    },
+    {
+     "id": "c114",
+     "ppm": 114.4,
+     "type": "CH"
+    },
+    {
+     "id": "c109",
+     "ppm": 108.7,
+     "type": "CH"
+    },
+    {
+     "id": "cS",
+     "ppm": 77.0,
+     "mult": "t",
+     "J": [
+      32
+     ],
+     "Jest": true,
+     "type": "",
+     "intensity": 2.2
+    },
+    {
+     "id": "c56",
+     "ppm": 56.1,
+     "type": "CH3"
+    }
+   ]
+  },
+  {
+   "id": "hmqc",
+   "kind": "2d",
+   "type": "HMQC",
+   "x": {
+    "nucleus": "1H",
+    "range": [
+     10.4,
+     3.4
+    ],
+    "ref": "h1"
+   },
+   "y": {
+    "nucleus": "13C",
+    "range": [
+     200,
+     45
+    ],
+    "ref": "c13"
+   },
+   "peaks": [
+    {
+     "id": "q1",
+     "x": 7.43,
+     "y": 127.6,
+     "label": "7.43 / 127.6"
+    },
+    {
+     "id": "q2",
+     "x": 7.43,
+     "y": 108.7,
+     "label": "7.43 / 108.7"
+    },
+    {
+     "id": "q3",
+     "x": 7.05,
+     "y": 114.4,
+     "label": "7.05 / 114.4"
+    },
+    {
+     "id": "q4",
+     "x": 9.83,
+     "y": 191.0,
+     "label": "9.83 / 191.0",
+     "expected": true
+    },
+    {
+     "id": "q5",
+     "x": 3.97,
+     "y": 56.1,
+     "label": "3.97 / 56.1",
+     "expected": true
+    }
+   ]
+  },
+  {
+   "id": "hmbc",
+   "kind": "2d",
+   "type": "HMBC",
+   "x": {
+    "nucleus": "1H",
+    "range": [
+     10.4,
+     3.4
+    ],
+    "ref": "h1"
+   },
+   "y": {
+    "nucleus": "13C",
+    "range": [
+     200,
+     45
+    ],
+    "ref": "c13"
+   },
+   "peaks": [
+    {
+     "id": "m1",
+     "x": 9.83,
+     "y": 129.9,
+     "label": "9.83 / 129.9"
+    },
+    {
+     "id": "m2",
+     "x": 9.83,
+     "y": 108.7,
+     "label": "9.83 / 108.7"
+    },
+    {
+     "id": "m3",
+     "x": 3.97,
+     "y": 147.2,
+     "label": "3.97 / 147.2"
+    },
+    {
+     "id": "m4",
+     "x": 6.29,
+     "y": 151.7,
+     "label": "OH / 151.7"
+    },
+    {
+     "id": "m5",
+     "x": 6.29,
+     "y": 147.2,
+     "label": "OH / 147.2"
+    },
+    {
+     "id": "m6",
+     "x": 6.29,
+     "y": 114.4,
+     "label": "OH / 114.4"
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "title": {
+    "zh": "不饱和度：5",
+    "en": "Degrees of unsaturation: 5"
+   },
+   "text": {
+    "zh": "C_{8}H_{8}O_{3} 的不饱和度是 5。只有 8 个碳却有 5 个不饱和度，这个数字本身就在提示结构类型。",
+    "en": "C_{8}H_{8}O_{3} has 5 degrees of unsaturation. Five on only eight carbons is itself a hint about the structure type."
+   },
+   "board": [
+    "DBE = (2×8 + 2 − 8) / 2 = 5",
+    "5 = 4 (benzene ring) + 1"
+   ],
+   "rule": {
+    "zh": "一个苯环占 4 个不饱和度（3 个 C=C 加 1 个环）。",
+    "en": "A benzene ring accounts for 4 (three C=C plus one ring)."
+   },
+   "so": {
+    "zh": "很可能是一个苯环，再加一个双键或一个环。先当作假设，后面用谱图验证。",
+    "en": "Probably one benzene ring plus one more double bond or ring. Keep it as a hypothesis to test."
+   }
+  },
+  {
+   "title": {
+    "zh": "清点氢谱：6 组峰",
+    "en": "Proton inventory: 6 signal groups"
+   },
+   "spectrum": "h1",
+   "peaks": [
+    "hCHO",
+    "hF",
+    "hS",
+    "hD",
+    "hOH",
+    "hOMe"
+   ],
+   "text": {
+    "zh": "TMS 之外有 6 组峰：9.83、7.43、7.27、7.05、6.29、3.97。3.97 的峰面积接近其他峰的三倍；7.43 处是两个 H 叠在一起。",
+    "en": "Besides TMS there are 6 signal groups: 9.83, 7.43, 7.27, 7.05, 6.29, 3.97. The 3.97 signal has nearly three times the area of the others, and two H coincide at 7.43."
+   },
+   "so": {
+    "zh": "1 + 2 + 1 + 1 + 3 = 8H 已经够数，7.27 的小峰是多出来的，下一步先处理它。",
+    "en": "1 + 2 + 1 + 1 + 3 = 8H is already complete, so the small signal at 7.27 is surplus. It is dealt with next."
+   }
+  },
+  {
+   "title": {
+    "zh": "芳香区里混着一个溶剂峰",
+    "en": "A solvent peak hiding in the aromatic region"
+   },
+   "spectrum": "h1",
+   "zoom": [
+    7.62,
+    6.88
+   ],
+   "peaks": [
+    "hS"
+   ],
+   "ask": {
+    "zh": "δ 7.27 的小单峰正好落在芳香区。它是样品的峰吗？",
+    "en": "The small singlet at δ 7.27 sits right in the aromatic region. Does it belong to the sample?"
+   },
+   "text": {
+    "zh": "δ 7.27 是一个面积很小的尖锐单峰，夹在 7.43 和 7.05 之间。",
+    "en": "δ 7.27 is a sharp singlet of small area, sitting between 7.43 and 7.05."
+   },
+   "rule": {
+    "zh": "CDCl_{3} 里残余的 CHCl_{3} 出现在 7.26–7.27 ppm。它的面积不成整数比，也和别的峰没有偶合。",
+    "en": "Residual CHCl_{3} in CDCl_{3} appears at 7.26–7.27 ppm. Its area is not an integer ratio and it couples to nothing."
+   },
+   "so": {
+    "zh": "7.27 是溶剂峰，排除。真正的芳氢只有 7.43（2H）和 7.05（1H），共 3 个。",
+    "en": "7.27 is the solvent and is excluded. The true aromatic protons are 7.43 (2H) and 7.05 (1H), three in total."
+   },
+   "check": {
+    "zh": "做芳香族化合物时，CDCl_{3} 的残余峰最容易被误算成一个芳氢。",
+    "en": "With aromatic compounds, the residual CDCl_{3} peak is the one most easily miscounted as an aromatic H."
+   },
+   "assign": {
+    "hS": "CHCl3"
+   }
+  },
+  {
+   "title": {
+    "zh": "入口信号：3H 单峰",
+    "en": "Entry signal: the 3H singlet"
+   },
+   "spectrum": "h1",
+   "zoom": [
+    4.5,
+    3.5
+   ],
+   "peaks": [
+    "hOMe"
+   ],
+   "text": {
+    "zh": "δ 3.97 是 3H 单峰。从它入手，因为积分、裂分、位移三样都不含糊。",
+    "en": "δ 3.97 is a 3H singlet. We enter here because integral, multiplicity and shift are all unambiguous."
+   },
+   "rule": {
+    "zh": "单峰说明邻位没有 H；3.7–4.0 ppm 的甲基连在 O 上。",
+    "en": "A singlet means no neighbouring H. A methyl at 3.7–4.0 ppm sits on oxygen."
+   },
+   "so": {
+    "zh": "片段一：–OCH_{3}。",
+    "en": "Fragment 1: –OCH_{3}."
+   },
+   "check": {
+    "zh": "它是芳基甲基醚还是甲酯，现在还分不清，等碳谱再判断。",
+    "en": "Aryl methyl ether or methyl ester cannot be told apart yet. The carbon spectrum will decide."
+   },
+   "assign": {
+    "hOMe": "OCH3"
+   }
+  },
+  {
+   "title": {
+    "zh": "两个孤立的 1H 单峰",
+    "en": "Two isolated 1H singlets"
+   },
+   "spectrum": "h1",
+   "zoom": [
+    10.3,
+    5.9
+   ],
+   "peaks": [
+    "hCHO",
+    "hOH"
+   ],
+   "ask": {
+    "zh": "δ 9.83 和 δ 6.29 各 1H，都是单峰。哪个连在碳上，哪个连在氧上？怎么验证？",
+    "en": "δ 9.83 and δ 6.29 are 1H singlets. Which is on carbon and which on oxygen, and how would you test it?"
+   },
+   "text": {
+    "zh": "δ 9.83 在很低场；δ 6.29 的位置不属于任何常见的 C–H 类型。",
+    "en": "δ 9.83 lies at very low field. δ 6.29 fits no common C–H type."
+   },
+   "rule": {
+    "zh": "9.5–10 ppm 的单峰是醛基 H。酚羟基在 CDCl_{3} 里常在 5–7 ppm，位置随浓度和温度移动。",
+    "en": "A singlet at 9.5–10 ppm is an aldehyde H. A phenol OH in CDCl_{3} is often at 5–7 ppm and moves with concentration and temperature."
+   },
+   "so": {
+    "zh": "片段二：–CHO（它就是第 5 个不饱和度）。片段三：–OH，暂定。三个 O 正好用完。",
+    "en": "Fragment 2: –CHO, which is the fifth degree of unsaturation. Fragment 3: –OH, tentatively. All three oxygens are used."
+   },
+   "check": {
+    "zh": "OH 只是暂定。HMQC 可以检验：连在氧上的 H 不会与任何碳出现交叉峰。",
+    "en": "The OH is only tentative. HMQC can test it: a proton on oxygen shows no cross peak to any carbon."
+   },
+   "assign": {
+    "hCHO": "CHO",
+    "hOH": "OH"
+   }
+  },
+  {
+   "title": {
+    "zh": "芳香区：1D 读不出取代模式",
+    "en": "Aromatic region: 1D cannot give the pattern"
+   },
+   "spectrum": "h1",
+   "zoom": [
+    7.62,
+    6.88
+   ],
+   "peaks": [
+    "hF",
+    "hD"
+   ],
+   "text": {
+    "zh": "δ 7.05 是清楚的双峰（1H）。δ 7.43 是 2H，但两个 H 的位移几乎相同，挤成一团，裂分读不出来。",
+    "en": "δ 7.05 is a clean doublet (1H). δ 7.43 is 2H, but the two protons have almost the same shift and merge into one lump whose splitting cannot be read."
+   },
+   "rule": {
+    "zh": "苯环参考值：邻位 ^{3}J ≈ 7–9 Hz，间位 ^{4}J ≈ 1–3 Hz。7.05 的双峰裂距是邻位大小，说明这个 H 恰好有一个邻位 H。",
+    "en": "Benzene reference values: ortho ^{3}J ≈ 7–9 Hz, meta ^{4}J ≈ 1–3 Hz. The doublet at 7.05 has an ortho-sized spacing, so this H has exactly one ortho H neighbour."
+   },
+   "so": {
+    "zh": "苯环上有 3 个 H 和 3 个取代基，其中至少两个 H 相邻。具体怎么排，这张谱定不了。",
+    "en": "The ring has 3 H and 3 substituents, and at least two H are adjacent. This spectrum cannot fix the exact arrangement."
+   },
+   "check": {
+    "zh": "这里是偶然重叠，不要硬读 7.43 的峰形。J ≈ 8 Hz 是典型值：所引报告只写了\"双峰\"，第二份数据记录的线距约 9 Hz。",
+    "en": "This is accidental overlap, so do not force a reading of the 7.43 lump. J ≈ 8 Hz is a typical value: the cited report only says doublet, and the second data set records a spacing of about 9 Hz."
+   }
+  },
+  {
+   "title": {
+    "zh": "碳谱：数碳，认官能团",
+    "en": "Carbon spectrum: count carbons, read functional groups"
+   },
+   "spectrum": "c13",
+   "peaks": [
+    "c191",
+    "c152",
+    "c147",
+    "c56",
+    "cS"
+   ],
+   "text": {
+    "zh": "除去 δ 77.0 的三重峰（CDCl_{3}，D 的 I = 1，2nI + 1 = 3），正好 8 个碳。191.0 是羰基，151.7 和 147.2 是连 O 的芳碳，56.1 是 OCH_{3}。",
+    "en": "Leaving out the triplet at δ 77.0 (CDCl_{3}; D has I = 1, so 2nI + 1 = 3), there are exactly 8 carbons. 191.0 is a carbonyl, 151.7 and 147.2 are aromatic carbons on oxygen, 56.1 is the OCH_{3}."
+   },
+   "rule": {
+    "zh": "醛、酮羰基在 190 ppm 以上，酯在 165–175。芳基甲基醚的 OCH_{3} 约 55–56，甲酯约 51–52。",
+    "en": "Aldehyde and ketone C=O appear above 190 ppm, esters at 165–175. An aryl methyl ether OCH_{3} is near 55–56, a methyl ester near 51–52."
+   },
+   "so": {
+    "zh": "191.0 排除了酯，56.1 说明是 Ar–OCH_{3}。8 个碳没有对称性：6 个芳碳各不相同。",
+    "en": "191.0 rules out an ester and 56.1 means Ar–OCH_{3}. Eight carbons with no symmetry: all six ring carbons differ."
+   },
+   "assign": {
+    "cS": "CDCl3",
+    "c56": "OCH3",
+    "c191": "CHO"
+   }
+  },
+  {
+   "title": {
+    "zh": "HMQC：把叠在一起的两个 H 分开",
+    "en": "HMQC: separating the two overlapping protons"
+   },
+   "spectrum": "hmqc",
+   "zoom": {
+    "x": [
+     7.7,
+     6.8
+    ],
+    "y": [
+     135,
+     102
+    ]
+   },
+   "peaks": [
+    "q1",
+    "q2",
+    "q3"
+   ],
+   "ask": {
+    "zh": "7.43 那一团在氢谱里分不开。换到碳这一维，会发生什么？",
+    "en": "The lump at 7.43 cannot be separated in the proton spectrum. What happens along the carbon axis?"
+   },
+   "text": {
+    "zh": "7.05 的 H 连在 114.4 上。7.43 这一列出现两个交叉峰，分别对着 127.6 和 108.7。6.29 的 H 没有任何交叉峰。",
+    "en": "The 7.05 proton sits on 114.4. The 7.43 column shows two cross peaks, to 127.6 and to 108.7. The 6.29 proton has no cross peak at all."
+   },
+   "rule": {
+    "zh": "HMQC（和 HSQC 一样）只显示直接相连的 H–C。两个 H 的氢位移相同，但它们的碳相差近 20 ppm，在碳维上自然分开。",
+    "en": "HMQC, like HSQC, shows only directly bonded H–C pairs. The two protons share a proton shift, but their carbons differ by almost 20 ppm and separate along the carbon axis."
+   },
+   "so": {
+    "zh": "7.43 确实是两个不同的 CH。带氢的芳碳：127.6、114.4、108.7；不带氢的：151.7、147.2、129.9。6.29 确认是 OH。",
+    "en": "7.43 really is two different CH groups. Protonated ring carbons: 127.6, 114.4, 108.7. Non-protonated: 151.7, 147.2, 129.9. The 6.29 signal is confirmed as OH."
+   },
+   "check": {
+    "zh": "灰色虚线圈（9.83/191.0 和 3.97/56.1）是按归属预期的相关峰，所引报告的正文没有逐个写出。",
+    "en": "The grey dashed rings (9.83/191.0 and 3.97/56.1) are correlations expected from the assignment. The cited report does not spell them out."
+   }
+  },
+  {
+   "title": {
+    "zh": "手里的零件，和 10 种拼法",
+    "en": "The parts in hand, and 10 ways to combine them"
+   },
+   "text": {
+    "zh": "零件齐了：一个带 3 个 H 的苯环，加上 CHO、OCH_{3}、OH 三个取代基。",
+    "en": "All parts are known: a benzene ring with 3 H, plus the substituents CHO, OCH_{3} and OH."
+   },
+   "board": [
+    "ring:  3 × CH   127.6   114.4   108.7",
+    "       3 × C    151.7   147.2   129.9",
+    "subst: CHO (9.83 / 191.0)",
+    "       OCH3 (3.97 / 56.1)",
+    "       OH  (6.29)"
+   ],
+   "rule": {
+    "zh": "带三个不同取代基的苯有 10 种位置异构体。",
+    "en": "A benzene ring with three different substituents has 10 positional isomers."
+   },
+   "so": {
+    "zh": "1D 谱和 HMQC 都定不了位置。需要 HMBC：它能从取代基上的 H 看到环上的碳。",
+    "en": "Neither the 1D spectra nor HMQC can fix the positions. HMBC is needed: it lets the substituent protons see the ring carbons."
+   }
+  },
+  {
+   "title": {
+    "zh": "HMBC：甲氧基连在哪个碳上",
+    "en": "HMBC: which carbon carries the methoxy group"
+   },
+   "spectrum": "hmbc",
+   "zoom": {
+    "x": [
+     4.6,
+     3.4
+    ],
+    "y": [
+     160,
+     138
+    ]
+   },
+   "peaks": [
+    "m3"
+   ],
+   "text": {
+    "zh": "OCH_{3} 的 H（3.97）只与一个碳相关：147.2。",
+    "en": "The OCH_{3} protons (3.97) correlate with one carbon only: 147.2."
+   },
+   "rule": {
+    "zh": "路径 H–C–O–C(芳) 是三根键，这是甲氧基的 H 能到达的唯一环碳。",
+    "en": "The path H–C–O–C(aryl) is three bonds, and that is the only ring carbon the methoxy protons can reach."
+   },
+   "so": {
+    "zh": "147.2 就是带 OCH_{3} 的碳。于是另一个连 O 的芳碳 151.7 带的是 OH。",
+    "en": "147.2 is the carbon bearing OCH_{3}. The other oxygenated ring carbon, 151.7, therefore bears the OH."
+   },
+   "assign": {
+    "c147": "C–OCH3",
+    "c152": "C–OH"
+   }
+  },
+  {
+   "title": {
+    "zh": "HMBC：让 OH 的氢来定位",
+    "en": "HMBC: let the OH proton do the locating"
+   },
+   "spectrum": "hmbc",
+   "zoom": {
+    "x": [
+     6.9,
+     5.7
+    ],
+    "y": [
+     160,
+     105
+    ]
+   },
+   "peaks": [
+    "m4",
+    "m5",
+    "m6"
+   ],
+   "ask": {
+    "zh": "OH 的 H 通过 2–3 根键能看到哪几个碳？",
+    "en": "Which carbons can the OH proton see over 2–3 bonds?"
+   },
+   "text": {
+    "zh": "OH（6.29）与三个碳相关：151.7、147.2 和 114.4。",
+    "en": "The OH (6.29) correlates with three carbons: 151.7, 147.2 and 114.4."
+   },
+   "rule": {
+    "zh": "H–O–C 是两根键（它自己的碳），H–O–C–C 是三根键（两个邻位碳）。所以 OH 看到的正好是本位碳和左右两个邻居。",
+    "en": "H–O–C is two bonds (its own carbon) and H–O–C–C is three bonds (the two ortho carbons). The OH therefore sees exactly its own carbon and both neighbours."
+   },
+   "so": {
+    "zh": "151.7（C–OH）的两个邻居是 147.2 和 114.4。也就是说：OCH_{3} 和 OH 相邻，OH 的另一侧是带着 7.05 那个 H 的 CH。",
+    "en": "The neighbours of 151.7 (C–OH) are 147.2 and 114.4. So OCH_{3} and OH are adjacent, and on the other side of the OH is the CH that carries the 7.05 proton."
+   },
+   "check": {
+    "zh": "OH 的 HMBC 峰不是每次都能看到：交换太快时会消失。这份谱里看到了，是很有用的证据。",
+    "en": "HMBC peaks from an OH are not always visible: fast exchange wipes them out. Here they are seen, and they are valuable evidence."
+   },
+   "reveal": {
+    "atoms": [
+     "C3",
+     "O3",
+     "C8",
+     "C4",
+     "O4",
+     "C5"
+    ]
+   },
+   "atoms": [
+    "C3",
+    "C5"
+   ],
+   "arrows": [
+    {
+     "from": "O4",
+     "to": "C3",
+     "kind": "hmbc"
+    },
+    {
+     "from": "O4",
+     "to": "C5",
+     "kind": "hmbc",
+     "bend": 1
+    }
+   ],
+   "assign": {
+    "hD": "H-5",
+    "c114": "C-5",
+    "c147": "C-3",
+    "c152": "C-4"
+   }
+  },
+  {
+   "title": {
+    "zh": "HMBC：醛基接在哪",
+    "en": "HMBC: where the aldehyde attaches"
+   },
+   "spectrum": "hmbc",
+   "zoom": {
+    "x": [
+     10.3,
+     9.3
+    ],
+    "y": [
+     140,
+     100
+    ]
+   },
+   "peaks": [
+    "m1",
+    "m2"
+   ],
+   "text": {
+    "zh": "醛基 H（9.83）与 129.9 和 108.7 相关。129.9 不带 H，108.7 是一个 CH。",
+    "en": "The aldehyde H (9.83) correlates with 129.9 and 108.7. 129.9 carries no H, and 108.7 is a CH."
+   },
+   "rule": {
+    "zh": "H–C(=O)–C 是两根键，到达醛基所连的环碳；再多一根键到它的邻位碳。",
+    "en": "H–C(=O)–C is two bonds and reaches the ring carbon bearing the CHO. One more bond reaches the carbons ortho to it."
+   },
+   "so": {
+    "zh": "带 CHO 的环碳是 129.9，它的一个邻位是 108.7 的 CH。最后一个不带 H 的碳也有了着落。",
+    "en": "The ring carbon bearing CHO is 129.9, and one of its neighbours is the CH at 108.7. The last non-protonated carbon is now placed."
+   },
+   "assign": {
+    "c130": "C-1"
+   }
+  },
+  {
+   "title": {
+    "zh": "拼环：只剩两个候选",
+    "en": "Closing the ring: two candidates left"
+   },
+   "spectrum": "h1",
+   "zoom": [
+    7.62,
+    6.88
+   ],
+   "peaks": [
+    "hD"
+   ],
+   "ask": {
+    "zh": "环上已有 C-3(OCH_{3})–C-4(OH)–C-5(H)。7.05 的 H-5 是邻位双峰，所以下一个是 CH。剩下 C(CHO) 和一个 CH，有几种接法？",
+    "en": "The ring so far reads C-3(OCH_{3})–C-4(OH)–C-5(H). H-5 at 7.05 is an ortho doublet, so the next atom is a CH. A C(CHO) and one CH remain. How many ways can they close the ring?"
+   },
+   "text": {
+    "zh": "两种。A：C-5H–C-6H–C-1(CHO)–C-2H–C-3，CHO 两侧都是 CH。B：C-5H–CH–CH–C(CHO)–C-3，三个 CH 连成一排，CHO 紧挨着 OCH_{3} 的碳。两者都符合前面所有的 HMBC。",
+    "en": "Two. A: C-5H–C-6H–C-1(CHO)–C-2H–C-3, with CH on both sides of the CHO. B: C-5H–CH–CH–C(CHO)–C-3, three CH in a row with the CHO next to the OCH_{3} carbon. Both fit every HMBC peak so far."
+   },
+   "so": {
+    "zh": "10 种异构体只剩 A 和 B。区别只有一处：CHO 的环碳挨着 OCH_{3} 的碳（B），还是隔着一个 CH（A）。",
+    "en": "Of the 10 isomers only A and B remain. They differ in one place: the CHO carbon is either next to the OCH_{3} carbon (B) or separated from it by a CH (A)."
+   }
+  },
+  {
+   "title": {
+    "zh": "用碳位移在 A 和 B 之间取舍",
+    "en": "Choosing between A and B by carbon shifts"
+   },
+   "spectrum": "c13",
+   "zoom": [
+    135,
+    50
+   ],
+   "peaks": [
+    "c56",
+    "c109"
+   ],
+   "text": {
+    "zh": "回到碳谱看两个数：OCH_{3} 的碳在 56.1；醛基 H 在 HMBC 里看到的那个 CH 在 108.7，是所有芳碳里最高场的。",
+    "en": "Back to the carbon spectrum for two numbers: the OCH_{3} carbon is at 56.1, and the CH that the aldehyde H sees in HMBC is at 108.7, the most shielded of all ring carbons."
+   },
+   "rule": {
+    "zh": "两条位移规律。其一：芳基 OCH_{3} 两侧都有取代基时，它的碳在 60–62 ppm；至少一侧是 H 时在 55–56 ppm。其二：芳环 CH 要屏蔽到 110 ppm 以下，通常要紧挨着一个连 O 的碳。",
+    "en": "Two shift rules. First: an aryl OCH_{3} flanked by substituents on both sides has its carbon at 60–62 ppm; with an H on at least one side it is at 55–56 ppm. Second: an aromatic CH shielded below 110 ppm normally sits next to an oxygen-bearing carbon."
+   },
+   "so": {
+    "zh": "OCH_{3} 在 56.1：它旁边必须有一个 CH，B 排除。108.7 的 CH 夹在 C-1 和 C-3 之间，正是 A 里的 C-2。结构是 A。",
+    "en": "The OCH_{3} is at 56.1, so it must have a CH beside it, and B is ruled out. The CH at 108.7 lies between C-1 and C-3, which is C-2 in A. The structure is A."
+   },
+   "check": {
+    "zh": "这一步用的是位移规律，属于\"指向\"而不是直接证明。直接的证明是 NOE：OCH_{3} 应当与 H-2 相关。所引数据里没有 NOESY，所以这里不画。",
+    "en": "This step uses shift rules, so it points to A but is not a direct proof. The direct proof would be an NOE from OCH_{3} to H-2. The cited data contain no NOESY, so none is drawn here."
+   },
+   "reveal": {
+    "atoms": [
+     "C6",
+     "C1",
+     "C7",
+     "C2"
+    ]
+   },
+   "atoms": [
+    "C2"
+   ],
+   "assign": {
+    "c109": "C-2",
+    "c128": "C-6",
+    "hF": "H-2 + H-6"
+   }
+  },
+  {
+   "title": {
+    "zh": "最后核对",
+    "en": "Final check"
+   },
+   "spectrum": "h1",
+   "peaks": [],
+   "final": true,
+   "text": {
+    "zh": "核对：C_{8}H_{8}O_{3} 的原子全部用上；5 个不饱和度 = 苯环 4 + C=O 1；5 组样品的氢信号（8H）和 8 个碳全部归属，溶剂峰已说明。6 个实测 HMBC 相关在结构上都是 2 或 3 根键。",
+    "en": "Check: every atom of C_{8}H_{8}O_{3} is used; 5 degrees of unsaturation = 4 for the ring + 1 for C=O; all 5 sample proton signals (8H) and 8 carbons are assigned, and the solvent is accounted for. All six measured HMBC correlations span 2 or 3 bonds in the structure."
+   },
+   "so": {
+    "zh": "结构确定：4-羟基-3-甲氧基苯甲醛，也就是香草醛。",
+    "en": "The structure is settled: 4-hydroxy-3-methoxybenzaldehyde, better known as vanillin."
+   },
+   "check": {
+    "zh": "想把 H-2 和 H-6 分开看，可以换溶剂（例如 DMSO-d_{6}）重测。",
+    "en": "To see H-2 and H-6 separately, the sample can be re-measured in another solvent such as DMSO-d_{6}."
+   }
+  }
+ ]
+}

@@ -1,7 +1,7 @@
 {
   "name": "dsh-nmr-walkthrough",
-  "version": "1.1.0",
-  "description": "MCP server and skill that build click-to-advance, bilingual NMR structure-solving walkthroughs from real, sourced data. Works with Claude Code, Codex, Antigravity, Qoder, WorkBuddy and DeepSeek Harness.",
+  "version": "1.2.0",
+  "description": "MCP server and skill that build click-to-advance, bilingual NMR structure-solving walkthroughs from real, sourced data. Works with Claude Code, Codex, Antigravity, Qoder, WorkBuddy, Doubao Work and DeepSeek Harness.",
   "type": "module",
   "main": "dsh/index.js",
   "bin": { "nmr-walkthrough-mcp": "server.mjs" },
@@ -10,7 +10,7 @@
     "./package.json": "./package.json",
     "./cordis.patch.yml": "./cordis.patch.yml"
   },
-  "files": ["server.mjs", "lib/", "dsh/", "skills/", "examples/", "scripts/", "SCHEMA.md", "STYLE-GUIDE.md", "cordis.patch.yml", "README.md", "LICENSE"],
+  "files": ["server.mjs", "lib/", "dsh/", "skills/", "standalone-skill/", "examples/", "scripts/", "SCHEMA.md", "STYLE-GUIDE.md", "cordis.patch.yml", "README.md", "LICENSE"],
   "scripts": { "test": "node scripts/test.mjs" },
   "license": "MIT",
   "author": "Jiasheng Fu (https://github.com/FelixJiashengFu)",

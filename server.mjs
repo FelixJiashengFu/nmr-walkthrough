@@ -1,6 +1,8 @@
 #!/usr/bin/env node
-// NMR walkthrough MCP server (stdio, no dependencies).
-// Also a CLI:  node server.mjs --build spec.json out.html [--standalone]
+// NMR walkthrough MCP server (no dependencies).
+//   node server.mjs                      stdio transport (default)
+//   node server.mjs --http [port]        Streamable HTTP transport on /mcp (default port 8765)
+//   node server.mjs --build spec.json out.html [--standalone]   CLI
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
@@ -59,20 +61,62 @@ function call(name, args = {}) {
   throw new Error('Unknown tool: ' + name);
 }
 
-const send = m => process.stdout.write(JSON.stringify(m) + '\n');
-createInterface({ input: process.stdin }).on('line', line => {
-  if (!line.trim()) return;
-  let msg; try { msg = JSON.parse(line); } catch { return send({ jsonrpc: '2.0', id: null, error: { code: -32700, message: 'Parse error' } }); }
-  const { id, method, params } = msg;
-  if (id === undefined) return; // notification
-  const ok = result => send({ jsonrpc: '2.0', id, result });
-  if (method === 'initialize') return ok({ protocolVersion: params?.protocolVersion || '2025-06-18', capabilities: { tools: {} }, serverInfo: { name: 'nmr-walkthrough', version: '1.1.0' },
+// One JSON-RPC message in, one response out (null for notifications). Shared by both transports.
+function handle(msg, { http = false } = {}) {
+  const { id, method, params } = msg || {};
+  if (id === undefined || id === null) return null; // notification
+  const ok = result => ({ jsonrpc: '2.0', id, result });
+  if (method === 'initialize') return ok({ protocolVersion: params?.protocolVersion || '2025-06-18', capabilities: { tools: {} }, serverInfo: { name: 'nmr-walkthrough', version: '1.2.0' },
     instructions: 'Builds click-to-advance bilingual NMR structure-solving walkthroughs. Call nmr_walkthrough_guide first, write the spec, then build_nmr_walkthrough. All data must be real: use the user\'s own spectra or a cited measured source, list it in spec.sources, and never present recalled or guessed values as measured.' });
   if (method === 'ping') return ok({});
   if (method === 'tools/list') return ok({ tools: TOOLS });
   if (method === 'tools/call') {
-    try { return ok({ content: [{ type: 'text', text: call(params?.name, params?.arguments) }] }); }
-    catch (e) { return ok({ content: [{ type: 'text', text: e.message }], isError: true }); }
+    try {
+      const args = { ...(params?.arguments || {}) };
+      // Over HTTP the caller usually cannot read this machine's disk, so hand the page back in the result.
+      if (http && params?.name === 'build_nmr_walkthrough' && args.return_html === undefined) args.return_html = true;
+      return ok({ content: [{ type: 'text', text: call(params?.name, args) }] });
+    } catch (e) { return ok({ content: [{ type: 'text', text: e.message }], isError: true }); }
   }
-  send({ jsonrpc: '2.0', id, error: { code: -32601, message: 'Method not found: ' + method } });
-});
+  return { jsonrpc: '2.0', id, error: { code: -32601, message: 'Method not found: ' + method } };
+}
+
+if (process.argv.includes('--http')) {
+  // Streamable HTTP transport (JSON responses, stateless):  node server.mjs --http [port] [--host 0.0.0.0]
+  // For agents that only accept a server URL, e.g. Doubao Work custom connectors. Endpoint: /mcp
+  const { createServer } = await import('node:http');
+  const arg = n => { const i = process.argv.indexOf(n); return i > -1 ? process.argv[i + 1] : undefined; };
+  const port = Number(arg('--http')) || Number(process.env.PORT) || 8765;
+  const host = arg('--host') || '127.0.0.1';
+  const token = process.env.NMR_MCP_TOKEN || '';
+  const MAX = 4 * 1024 * 1024;
+  createServer((req, res) => {
+    const reply = (code, body, type = 'application/json') => { res.writeHead(code, { 'content-type': type, 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type, authorization, mcp-protocol-version, mcp-session-id', 'access-control-allow-methods': 'POST, OPTIONS' }); res.end(body); };
+    const path = (req.url || '/').split('?')[0];
+    if (req.method === 'OPTIONS') return reply(204, '');
+    if (req.method === 'GET' && (path === '/' || path === '/health')) return reply(200, 'nmr-walkthrough MCP server. POST JSON-RPC to /mcp\n', 'text/plain; charset=utf-8');
+    if (path !== '/mcp') return reply(404, '{"error":"not found"}');
+    if (req.method !== 'POST') return reply(405, '{"error":"use POST"}');
+    if (token && req.headers.authorization !== 'Bearer ' + token) return reply(401, '{"error":"unauthorized"}');
+    let body = '', size = 0;
+    req.on('data', c => { size += c.length; if (size > MAX) { reply(413, '{"error":"too large"}'); req.destroy(); } else body += c; });
+    req.on('end', () => {
+      if (res.writableEnded) return;
+      let msg; try { msg = JSON.parse(body); } catch { return reply(400, JSON.stringify({ jsonrpc: '2.0', id: null, error: { code: -32700, message: 'Parse error' } })); }
+      const out = Array.isArray(msg) ? msg.map(m => handle(m, { http: true })).filter(Boolean) : handle(msg, { http: true });
+      if (!out || (Array.isArray(out) && !out.length)) return reply(202, '');
+      reply(200, JSON.stringify(out));
+    });
+  }).listen(port, host, () => {
+    console.error(`nmr-walkthrough MCP server listening on http://${host}:${port}/mcp` + (token ? ' (bearer token required)' : ''));
+    if (host !== '127.0.0.1' && host !== 'localhost' && !token) console.error('warning: reachable from other machines without a token. Set NMR_MCP_TOKEN to require "Authorization: Bearer <token>".');
+  });
+} else {
+  const send = m => process.stdout.write(JSON.stringify(m) + '\n');
+  createInterface({ input: process.stdin }).on('line', line => {
+    if (!line.trim()) return;
+    let msg; try { msg = JSON.parse(line); } catch { return send({ jsonrpc: '2.0', id: null, error: { code: -32700, message: 'Parse error' } }); }
+    const out = handle(msg);
+    if (out) send(out);
+  });
+}

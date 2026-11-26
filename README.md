@@ -54,6 +54,7 @@ npm test   # 可选：自检
 | Qoder | `node scripts/install.mjs qoder` | `~/.qoder/skills/` | `~/.qoder/settings.json` |
 | WorkBuddy | `node scripts/install.mjs workbuddy` | `~/.workbuddy/skills/` | `~/.workbuddy/mcp.json` |
 | DeepSeek Harness | 见下方插件方式 | 插件自带 | 插件自带 |
+| 豆包工作 Doubao Work | `node scripts/install.mjs doubao`（显示步骤） | 在界面里上传 | 在界面里新建连接器 |
 
 ### Claude Code
 
@@ -102,12 +103,33 @@ dsh plugin --profile desktop add github:FelixJiashengFu/nmr-walkthrough
 
 `dsh/index.js` 是一个很小的宿主插件，用 DSH 自带的 MCP 客户端启动 `server.mjs`，并加载 `skills/` 里的 Skill。
 
+### 豆包工作（Doubao Work）
+
+豆包工作在自己的界面里添加技能和连接器，不读配置文件。分两步，第一步就够用。
+
+**1. 上传技能（必做）。** 打开豆包电脑版，进入"技能 · 连接器 · 伙伴"，在"我的技能"里点右上角"新建 → 上传技能"，把仓库里的这个文件夹拖进去：
+
+```
+standalone-skill/nmr-step-walkthrough
+```
+
+这个文件夹是自带生成器的完整版技能（`SKILL.md` 加 `builder/`），不依赖连接器。之后在任务里说"用 nmr-step-walkthrough 讲这道题"，并附上你的谱图或峰表即可。
+
+**2. 添加连接器（可选）。** 想让豆包通过 MCP 调用生成器，先用 HTTP 方式启动服务并保持运行：
+
+```bash
+node server.mjs --http 8765
+```
+
+然后在同一页面点"新建 → 新建自定义连接器"，传输类型选 HTTP，服务器 URL 填 `http://127.0.0.1:8765/mcp`。如果豆包工作连不上本机地址，就需要把服务部署到公网 HTTPS 地址，并设置环境变量 `NMR_MCP_TOKEN`，在连接器的自定义 Headers 里填 `Authorization: Bearer <你的令牌>`。
+
 ### 适配情况说明 / Compatibility notes
 
-- MCP 服务器是标准的 stdio 协议，自检和协议握手已在本仓库测试（`npm test`）。安装脚本对每种工具写出的文件也已测试。
+- MCP 服务器支持 stdio 和 HTTP（Streamable HTTP，`/mcp`）两种方式，自检和协议握手已在本仓库测试（`npm test`）。安装脚本对每种工具写出的文件也已测试。
 - 各工具的配置路径取自它们的官方文档（Codex、Antigravity、Qoder，以及 WorkBuddy 的 MCP 部分）。WorkBuddy 的 Skill 目录 `~/.workbuddy/skills/` 来自社区文章，官方文档没有写明。
 - DeepSeek Harness 的插件按现有 DSH 0.2.x 插件的结构编写，还没有在真实的 DSH 里运行验证。DSH 仍是开发者预览版，接口可能变化。
-- 在这六个工具里的实际加载效果还没有逐个实机测试。遇到问题请提 issue。
+- 豆包工作的官方帮助中心是动态页面，写这份说明时读不到正文。上面的菜单名称和步骤取自第三方教程；它是否支持本机命令方式（stdio）的连接器、能否访问 `127.0.0.1`、上传的技能里的脚本在本机还是云端运行，都没有查到官方说法，所以把自带生成器的技能作为主要方式。
+- 在这七个工具里的实际加载效果还没有逐个实机测试。遇到问题请提 issue。
 
 ## 使用 / Use
 
@@ -143,6 +165,7 @@ node server.mjs --build examples/vanillin.json vanillin.html --standalone
 - `lib/player.html` 播放器模板，`lib/build.mjs` 校验与生成
 - `skills/nmr-step-walkthrough/SKILL.md` Skill
 - `STYLE-GUIDE.md` 讲解方法，`SCHEMA.md` 数据格式
+- `standalone-skill/` 自带生成器的完整版技能（由 `scripts/pack-skill.mjs` 生成，给只能上传技能文件夹的工具用）
 - `scripts/install.mjs` 各工具的安装脚本，`scripts/test.mjs` 自检
 - `.claude-plugin/`、`.mcp.json` Claude Code 插件；`dsh/`、`cordis.patch.yml` DeepSeek Harness 插件
 
