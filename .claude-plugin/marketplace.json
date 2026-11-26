@@ -1,0 +1,8 @@
+{
+  "name": "nmr-walkthrough",
+  "description": "NMR step-by-step walkthrough builder: MCP server and skill.",
+  "owner": { "name": "Jiasheng Fu" },
+  "plugins": [
+    { "name": "nmr-walkthrough", "source": "./", "description": "Click-to-advance bilingual NMR walkthroughs from real, sourced data." }
+  ]
+}

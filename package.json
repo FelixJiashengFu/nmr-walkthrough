@@ -1,0 +1,32 @@
+{
+  "name": "dsh-nmr-walkthrough",
+  "version": "1.1.0",
+  "description": "MCP server and skill that build click-to-advance, bilingual NMR structure-solving walkthroughs from real, sourced data. Works with Claude Code, Codex, Antigravity, Qoder, WorkBuddy and DeepSeek Harness.",
+  "type": "module",
+  "main": "dsh/index.js",
+  "bin": { "nmr-walkthrough-mcp": "server.mjs" },
+  "exports": {
+    ".": "./dsh/index.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "files": ["server.mjs", "lib/", "dsh/", "skills/", "examples/", "scripts/", "SCHEMA.md", "STYLE-GUIDE.md", "cordis.patch.yml", "README.md", "LICENSE"],
+  "scripts": { "test": "node scripts/test.mjs" },
+  "license": "MIT",
+  "author": "Jiasheng Fu (https://github.com/FelixJiashengFu)",
+  "keywords": ["nmr", "mcp", "skill", "chemistry", "education", "dsh", "deepseek-harness"],
+  "engines": { "node": ">=18", "dsh": ">=0.2.0-rc.1" },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.4",
+    "@deepseek-ai/dsh-mcp-client": ">=0.2.0-rc.1",
+    "@deepseek-ai/dsh-skill-filesystem": ">=0.2.0-rc.1",
+    "@deepseek-ai/schemastery": "^3.18.2"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/cordis": { "optional": true },
+    "@deepseek-ai/dsh-mcp-client": { "optional": true },
+    "@deepseek-ai/dsh-skill-filesystem": { "optional": true },
+    "@deepseek-ai/schemastery": { "optional": true }
+  },
+  "dsh": { "bundle": { "patch": "./cordis.patch.yml" } }
+}

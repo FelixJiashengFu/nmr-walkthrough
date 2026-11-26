@@ -1,0 +1,5 @@
+# dsh-nmr-walkthrough bundle patch: adds one host row. The row mounts DSH's MCP client on the
+# bundled server.mjs (tools mcp__nmr-walkthrough__*) and a skill provider for skills/.
+- insert:
+    - id: nmr-walkthrough
+      name: dsh-nmr-walkthrough

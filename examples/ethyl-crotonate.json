@@ -1,0 +1,923 @@
+{
+ "title": {
+  "zh": "由 1D 与 2D NMR 推出 C_{6}H_{10}O_{2} 的结构",
+  "en": "Solving C_{6}H_{10}O_{2} from 1D and 2D NMR"
+ },
+ "shortTitle": "Ethyl crotonate NMR walkthrough",
+ "formula": "C6H10O2",
+ "prompt": {
+  "zh": "CDCl_{3} 中测得 ^{1}H、^{13}C、HSQC、COSY、HMBC。推出结构并归属每一个峰。",
+  "en": "^{1}H, ^{13}C, HSQC, COSY and HMBC in CDCl_{3}. Deduce the structure and assign every peak."
+ },
+ "note": {
+  "zh": "位移取自上面所列来源的实测值（CDCl_{3}）。带 ≈ 的 J 值和 C-3 的位移是文献典型值。",
+  "en": "Shifts are the measured values from the sources listed (CDCl_{3}). J values marked ≈ and the C-3 shift are typical literature values."
+ },
+ "answer": {
+  "zh": "答案：(E)-丁-2-烯酸乙酯（巴豆酸乙酯）",
+  "en": "Answer: ethyl (E)-but-2-enoate (ethyl crotonate)"
+ },
+ "molecule": {
+  "atoms": [
+   {
+    "id": "C4",
+    "x": 0,
+    "y": 0.5,
+    "label": "CH3",
+    "num": "4"
+   },
+   {
+    "id": "C3",
+    "x": 1,
+    "y": 0,
+    "label": "CH",
+    "num": "3"
+   },
+   {
+    "id": "C2",
+    "x": 2,
+    "y": 0.5,
+    "label": "CH",
+    "num": "2",
+    "numBelow": true
+   },
+   {
+    "id": "C1",
+    "x": 3,
+    "y": 0,
+    "label": "C",
+    "num": "1",
+    "numBelow": true
+   },
+   {
+    "id": "O1",
+    "x": 3,
+    "y": -1,
+    "label": "O"
+   },
+   {
+    "id": "O2",
+    "x": 4,
+    "y": 0.5,
+    "label": "O"
+   },
+   {
+    "id": "C5",
+    "x": 5,
+    "y": 0,
+    "label": "CH2",
+    "num": "1'"
+   },
+   {
+    "id": "C6",
+    "x": 6,
+    "y": 0.5,
+    "label": "CH3",
+    "num": "2'"
+   }
+  ],
+  "bonds": [
+   {
+    "a": "C4",
+    "b": "C3"
+   },
+   {
+    "a": "C3",
+    "b": "C2",
+    "order": 2
+   },
+   {
+    "a": "C2",
+    "b": "C1",
+    "id": "b12"
+   },
+   {
+    "a": "C1",
+    "b": "O1",
+    "order": 2
+   },
+   {
+    "a": "C1",
+    "b": "O2",
+    "id": "b1o"
+   },
+   {
+    "a": "O2",
+    "b": "C5"
+   },
+   {
+    "a": "C5",
+    "b": "C6"
+   }
+  ]
+ },
+ "spectra": [
+  {
+   "id": "h1",
+   "kind": "1d",
+   "nucleus": "1H",
+   "mhz": 400,
+   "range": [
+    7.6,
+    0.6
+   ],
+   "peaks": [
+    {
+     "id": "hA",
+     "ppm": 6.98,
+     "mult": "dq",
+     "J": [
+      15.5,
+      6.9
+     ],
+     "nH": 1,
+     "Jest": true
+    },
+    {
+     "id": "hB",
+     "ppm": 5.84,
+     "mult": "dq",
+     "J": [
+      15.5,
+      1.7
+     ],
+     "nH": 1,
+     "Jest": true
+    },
+    {
+     "id": "hC",
+     "ppm": 4.18,
+     "mult": "q",
+     "J": [
+      7.1
+     ],
+     "nH": 2,
+     "Jest": true
+    },
+    {
+     "id": "hD",
+     "ppm": 1.88,
+     "mult": "dd",
+     "J": [
+      6.9,
+      1.7
+     ],
+     "nH": 3,
+     "Jest": true
+    },
+    {
+     "id": "hE",
+     "ppm": 1.28,
+     "mult": "t",
+     "J": [
+      7.1
+     ],
+     "nH": 3,
+     "Jest": true
+    }
+   ]
+  },
+  {
+   "id": "c13",
+   "kind": "1d",
+   "nucleus": "13C",
+   "mhz": 100,
+   "range": [
+    180,
+    0
+   ],
+   "peaks": [
+    {
+     "id": "cA",
+     "ppm": 166.6,
+     "type": "C",
+     "intensity": 0.5
+    },
+    {
+     "id": "cB",
+     "ppm": 144.5,
+     "type": "CH",
+     "est": true
+    },
+    {
+     "id": "cC",
+     "ppm": 122.8,
+     "type": "CH"
+    },
+    {
+     "id": "cD",
+     "ppm": 60.1,
+     "type": "CH2"
+    },
+    {
+     "id": "cE",
+     "ppm": 17.9,
+     "type": "CH3"
+    },
+    {
+     "id": "cF",
+     "ppm": 14.3,
+     "type": "CH3"
+    }
+   ]
+  },
+  {
+   "id": "hsqc",
+   "kind": "2d",
+   "type": "HSQC",
+   "x": {
+    "nucleus": "1H",
+    "range": [
+     7.6,
+     0.6
+    ],
+    "ref": "h1"
+   },
+   "y": {
+    "nucleus": "13C",
+    "range": [
+     180,
+     0
+    ],
+    "ref": "c13"
+   },
+   "peaks": [
+    {
+     "id": "q1",
+     "x": 6.98,
+     "y": 144.5,
+     "label": "6.98 / 144.5",
+     "expected": true
+    },
+    {
+     "id": "q2",
+     "x": 5.84,
+     "y": 122.8,
+     "label": "5.84 / 122.8"
+    },
+    {
+     "id": "q3",
+     "x": 4.18,
+     "y": 60.1,
+     "label": "4.18 / 60.1"
+    },
+    {
+     "id": "q4",
+     "x": 1.88,
+     "y": 17.9,
+     "label": "1.88 / 17.9"
+    },
+    {
+     "id": "q5",
+     "x": 1.28,
+     "y": 14.3,
+     "label": "1.28 / 14.3"
+    }
+   ]
+  },
+  {
+   "id": "cosy",
+   "kind": "2d",
+   "type": "COSY",
+   "x": {
+    "nucleus": "1H",
+    "range": [
+     7.6,
+     0.6
+    ],
+    "ref": "h1"
+   },
+   "y": {
+    "nucleus": "1H",
+    "range": [
+     7.6,
+     0.6
+    ],
+    "ref": "h1"
+   },
+   "peaks": [
+    {
+     "id": "k1",
+     "x": 4.18,
+     "y": 1.28,
+     "label": "H1'/H2'"
+    },
+    {
+     "id": "k2",
+     "x": 6.98,
+     "y": 1.88,
+     "label": "H3/H4"
+    },
+    {
+     "id": "k3",
+     "x": 6.98,
+     "y": 5.84,
+     "label": "H3/H2"
+    },
+    {
+     "id": "k4",
+     "x": 5.84,
+     "y": 1.88,
+     "label": "H2/H4 (⁴J)",
+     "weak": true
+    }
+   ]
+  },
+  {
+   "id": "hmbc",
+   "kind": "2d",
+   "type": "HMBC",
+   "x": {
+    "nucleus": "1H",
+    "range": [
+     7.6,
+     0.6
+    ],
+    "ref": "h1"
+   },
+   "y": {
+    "nucleus": "13C",
+    "range": [
+     180,
+     0
+    ],
+    "ref": "c13"
+   },
+   "peaks": [
+    {
+     "id": "m1",
+     "x": 4.18,
+     "y": 166.6,
+     "label": "H1'/C1"
+    },
+    {
+     "id": "m2",
+     "x": 4.18,
+     "y": 14.3,
+     "label": "H1'/C2'"
+    },
+    {
+     "id": "m3",
+     "x": 1.28,
+     "y": 60.1,
+     "label": "H2'/C1'",
+     "expected": true
+    },
+    {
+     "id": "m4",
+     "x": 5.84,
+     "y": 166.6,
+     "label": "H2/C1",
+     "expected": true
+    },
+    {
+     "id": "m5",
+     "x": 6.98,
+     "y": 166.6,
+     "label": "H3/C1",
+     "expected": true
+    },
+    {
+     "id": "m6",
+     "x": 1.88,
+     "y": 144.5,
+     "label": "H4/C3",
+     "expected": true
+    },
+    {
+     "id": "m7",
+     "x": 1.88,
+     "y": 122.8,
+     "label": "H4/C2",
+     "expected": true
+    },
+    {
+     "id": "m8",
+     "x": 5.84,
+     "y": 17.9,
+     "label": "H2/C4",
+     "expected": true
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "title": {
+    "zh": "先算不饱和度",
+    "en": "Start with the degrees of unsaturation"
+   },
+   "text": {
+    "zh": "动谱图之前先看分子式 C_{6}H_{10}O_{2}，它告诉我们要找几个环或双键。",
+    "en": "Before touching a spectrum, read the formula C_{6}H_{10}O_{2}. It tells us how many rings or double bonds to look for."
+   },
+   "board": [
+    "DBE = (2×6 + 2 − 10) / 2 = 2"
+   ],
+   "so": {
+    "zh": "两个不饱和度：后面必须找到两个双键，或一个环加一个双键。",
+    "en": "Two degrees of unsaturation: we must find two double bonds, or one ring plus one double bond."
+   }
+  },
+  {
+   "title": {
+    "zh": "清点氢谱",
+    "en": "Take stock of the proton spectrum"
+   },
+   "spectrum": "h1",
+   "peaks": [
+    "hA",
+    "hB",
+    "hC",
+    "hD",
+    "hE"
+   ],
+   "text": {
+    "zh": "氢谱可以分出 5 组信号，从低场到高场积分比为 1 : 1 : 2 : 3 : 3。",
+    "en": "The proton spectrum separates into 5 signal groups. From low to high field the integrals are 1 : 1 : 2 : 3 : 3."
+   },
+   "so": {
+    "zh": "加起来正好 10 个 H，和分子式一致，没有多余的杂质峰需要排除。",
+    "en": "That adds up to 10 H, matching the formula, so no signal has to be set aside as an impurity."
+   }
+  },
+  {
+   "title": {
+    "zh": "从最好认的信号入手",
+    "en": "Enter through the easiest signal"
+   },
+   "spectrum": "h1",
+   "zoom": [
+    4.6,
+    0.9
+   ],
+   "peaks": [
+    "hC",
+    "hE"
+   ],
+   "ask": {
+    "zh": "一个 2H 四重峰加一个 3H 三重峰，J 相同。这是什么片段？",
+    "en": "A 2H quartet and a 3H triplet share the same J. Which fragment is this?"
+   },
+   "text": {
+    "zh": "δ 4.18（q，2H）和 δ 1.28（t，3H）的 J 都是 7.1 Hz。从这里开始，是因为积分、裂分和位移三样都毫不含糊。",
+    "en": "δ 4.18 (q, 2H) and δ 1.28 (t, 3H) both show J = 7.1 Hz. We start here because integral, multiplicity and shift are all unambiguous."
+   },
+   "rule": {
+    "zh": "n + 1 规律：CH_{2} 被 3 个邻位 H 裂成四重峰，CH_{3} 被 2 个邻位 H 裂成三重峰。烷基 CH_{2} 出现在 4.2 ppm 说明它直接连 O。",
+    "en": "n + 1 rule: three neighbours split the CH_{2} into a quartet, two neighbours split the CH_{3} into a triplet. An alkyl CH_{2} at 4.2 ppm must sit on oxygen."
+   },
+   "so": {
+    "zh": "得到第一个片段：乙氧基 –O–CH_{2}–CH_{3}。",
+    "en": "First fragment: an ethoxy group, –O–CH_{2}–CH_{3}."
+   },
+   "reveal": {
+    "atoms": [
+     "O2",
+     "C5",
+     "C6"
+    ]
+   },
+   "atoms": [
+    "C5",
+    "C6"
+   ],
+   "assign": {
+    "hC": "H-1'",
+    "hE": "H-2'"
+   }
+  },
+  {
+   "title": {
+    "zh": "两个烯氢",
+    "en": "Two olefinic protons"
+   },
+   "spectrum": "h1",
+   "zoom": [
+    7.4,
+    5.5
+   ],
+   "peaks": [
+    "hA",
+    "hB"
+   ],
+   "text": {
+    "zh": "δ 6.98 和 δ 5.84 各 1H，都落在烯氢区，而且两者共有一个 15.5 Hz 的大偶合。",
+    "en": "δ 6.98 and δ 5.84 are 1H each, both in the alkene region, and they share one large coupling of 15.5 Hz."
+   },
+   "so": {
+    "zh": "它们互为邻位：片段 –CH=CH–，用掉第一个不饱和度。",
+    "en": "They are neighbours: a –CH=CH– unit, which uses the first degree of unsaturation."
+   },
+   "reveal": {
+    "atoms": [
+     "C3",
+     "C2"
+    ]
+   },
+   "atoms": [
+    "C3",
+    "C2"
+   ]
+  },
+  {
+   "title": {
+    "zh": "用 J 值定双键构型",
+    "en": "Read the alkene geometry from J"
+   },
+   "spectrum": "h1",
+   "zoom": [
+    7.12,
+    6.82
+   ],
+   "peaks": [
+    "hA"
+   ],
+   "ask": {
+    "zh": "15.5 Hz 的邻位偶合，是 E 还是 Z？",
+    "en": "A vicinal coupling of 15.5 Hz: E or Z?"
+   },
+   "text": {
+    "zh": "把 δ 6.98 放大：它是 dq，先被 15.5 Hz 裂成两半，每一半再被 6.9 Hz 裂成四重峰。",
+    "en": "Zoom into δ 6.98: a dq, split in two by 15.5 Hz, and each half split into a quartet by 6.9 Hz."
+   },
+   "rule": {
+    "zh": "参考值：^{3}J_{E} ≈ 15 Hz，^{3}J_{Z} ≈ 10 Hz。",
+    "en": "Reference values: ^{3}J_{E} ≈ 15 Hz, ^{3}J_{Z} ≈ 10 Hz."
+   },
+   "so": {
+    "zh": "15.5 Hz 指向 E 构型。那个 6.9 Hz 的四重峰说明这个 CH 旁边还有一个 CH_{3}。",
+    "en": "15.5 Hz points to the E isomer. The 6.9 Hz quartet says this CH also has a CH_{3} next to it."
+   },
+   "check": {
+    "zh": "15.5、6.9、1.7 Hz 是反式巴豆酸酯的文献典型值。所引的实测报告只描述了裂分形状（\"一大一小的偶合\"），没有给出数值，所以表里写成 J ≈。",
+    "en": "15.5, 6.9 and 1.7 Hz are typical literature values for trans-crotonates. The cited measured report only describes the shapes (one large and one small coupling) and gives no numbers, so the table shows J ≈."
+   }
+  },
+  {
+   "title": {
+    "zh": "双键上的甲基",
+    "en": "The methyl on the double bond"
+   },
+   "spectrum": "h1",
+   "zoom": [
+    2.08,
+    1.68
+   ],
+   "peaks": [
+    "hD"
+   ],
+   "text": {
+    "zh": "δ 1.88（3H）是 dd：6.9 Hz 对上了刚才 δ 6.98 的四重峰，另一个 1.7 Hz 很小。",
+    "en": "δ 1.88 (3H) is a dd: 6.9 Hz matches the quartet seen at δ 6.98, and the second coupling is only 1.7 Hz."
+   },
+   "rule": {
+    "zh": "1–2 Hz 的小偶合是典型的烯丙位 ^{4}J，隔着双键传到另一个烯氢。",
+    "en": "A small 1–2 Hz coupling is a typical allylic ^{4}J, carried across the double bond to the other olefinic H."
+   },
+   "so": {
+    "zh": "第二个片段：CH_{3}–CH=CH–，其中 δ 6.98 是挨着甲基的 H-3，δ 5.84 是 H-2。",
+    "en": "Second fragment: CH_{3}–CH=CH–, where δ 6.98 is H-3 next to the methyl and δ 5.84 is H-2."
+   },
+   "reveal": {
+    "atoms": [
+     "C4"
+    ]
+   },
+   "atoms": [
+    "C4",
+    "C3"
+   ],
+   "assign": {
+    "hD": "H-4",
+    "hA": "H-3",
+    "hB": "H-2"
+   }
+  },
+  {
+   "title": {
+    "zh": "碳谱：数碳，找官能团",
+    "en": "Carbon spectrum: count carbons, spot the functional group"
+   },
+   "spectrum": "c13",
+   "peaks": [
+    "cA"
+   ],
+   "text": {
+    "zh": "碳谱有 6 个峰，正好 6 个碳，没有对称性。两个片段只用了 5 个碳，剩下的是 δ 166.6。",
+    "en": "Six carbon signals for six carbons, so no symmetry. Our two fragments account for five carbons. The one left is δ 166.6."
+   },
+   "rule": {
+    "zh": "165–175 ppm 是酯或羧酸的 C=O，酮和醛要到 190 ppm 以上。",
+    "en": "165–175 ppm is an ester or acid C=O. Ketones and aldehydes appear above 190 ppm."
+   },
+   "so": {
+    "zh": "酯羰基，正好用掉第二个不饱和度和第二个 O。",
+    "en": "An ester carbonyl, which uses the second degree of unsaturation and the second oxygen."
+   },
+   "reveal": {
+    "atoms": [
+     "C1",
+     "O1"
+    ]
+   },
+   "atoms": [
+    "C1"
+   ],
+   "assign": {
+    "cA": "C-1"
+   },
+   "check": {
+    "zh": "C-3 的 ≈144.5 是文献典型值：所引报告的碳谱表在这一行印错了。其余 5 个碳是实测值。",
+    "en": "≈144.5 for C-3 is a typical literature value: the cited report's carbon table is misprinted in that row. The other five carbons are measured."
+   }
+  },
+  {
+   "title": {
+    "zh": "HSQC：给每个 H 找到它的 C",
+    "en": "HSQC: give every H its carbon"
+   },
+   "spectrum": "hsqc",
+   "peaks": [
+    "q1",
+    "q2",
+    "q3",
+    "q4",
+    "q5"
+   ],
+   "text": {
+    "zh": "HSQC 的每个交叉峰是一对直接相连的 H 和 C。从氢向下读到碳，逐个配对。",
+    "en": "Each HSQC cross peak is one directly bonded H–C pair. Read down from each proton to its carbon."
+   },
+   "so": {
+    "zh": "五个带氢的碳全部归属。δ 166.6 没有任何交叉峰，确认它是不带 H 的季碳。",
+    "en": "All five protonated carbons are assigned. δ 166.6 has no cross peak at all, confirming a carbon without H."
+   },
+   "assign": {
+    "cB": "C-3",
+    "cC": "C-2",
+    "cD": "C-1'",
+    "cE": "C-4",
+    "cF": "C-2'"
+   }
+  },
+  {
+   "title": {
+    "zh": "COSY：沿着偶合走一遍",
+    "en": "COSY: walk along the couplings"
+   },
+   "spectrum": "cosy",
+   "peaks": [
+    "k2",
+    "k3",
+    "k4"
+   ],
+   "text": {
+    "zh": "读法是对角峰 → 交叉峰 → 对角峰。从 H-4（1.88）出发走到 H-3（6.98），再走到 H-2（5.84）。H-4 与 H-2 之间还有一个弱峰。",
+    "en": "Read it as diagonal → cross peak → diagonal. From H-4 (1.88) we reach H-3 (6.98), then H-2 (5.84). A weak peak also links H-4 and H-2."
+   },
+   "rule": {
+    "zh": "对角线上方和下方的交叉峰是同一个信息，读一侧就够。",
+    "en": "Cross peaks above and below the diagonal carry the same information. Read one side."
+   },
+   "so": {
+    "zh": "自旋体系 A：H-4 – H-3 – H-2，和氢谱的裂分完全吻合。",
+    "en": "Spin system A: H-4 – H-3 – H-2, in full agreement with the 1D splittings."
+   },
+   "arrows": [
+    {
+     "from": "C4",
+     "to": "C3",
+     "kind": "cosy"
+    },
+    {
+     "from": "C3",
+     "to": "C2",
+     "kind": "cosy"
+    }
+   ],
+   "atoms": [
+    "C4",
+    "C3",
+    "C2"
+   ]
+  },
+  {
+   "title": {
+    "zh": "COSY 也告诉我们哪里断开",
+    "en": "COSY also shows where the chain stops"
+   },
+   "spectrum": "cosy",
+   "peaks": [
+    "k1"
+   ],
+   "text": {
+    "zh": "乙基的 4.18 只和 1.28 相关，与烯氢、甲基之间没有任何交叉峰。",
+    "en": "The ethyl CH_{2} at 4.18 correlates only with 1.28. There is no cross peak to the olefinic protons or to the other methyl."
+   },
+   "so": {
+    "zh": "两个自旋体系互相孤立，中间隔着没有 H 的原子。要把它们接起来，必须用 HMBC。",
+    "en": "The two spin systems are isolated, separated by atoms that carry no H. Joining them needs HMBC."
+   },
+   "check": {
+    "zh": "没看到的峰也是证据，但只有在预期峰应当很强时才可靠。",
+    "en": "A missing peak is evidence too, but only where the expected peak should be strong."
+   },
+   "arrows": [
+    {
+     "from": "C5",
+     "to": "C6",
+     "kind": "cosy"
+    }
+   ],
+   "atoms": [
+    "C5",
+    "C6"
+   ]
+  },
+  {
+   "title": {
+    "zh": "HMBC：乙氧基接在哪",
+    "en": "HMBC: where the ethoxy group attaches"
+   },
+   "spectrum": "hmbc",
+   "zoom": {
+    "x": [
+     4.8,
+     0.8
+    ],
+    "y": [
+     180,
+     0
+    ]
+   },
+   "peaks": [
+    "m1"
+   ],
+   "ask": {
+    "zh": "OCH_{2} 的氢如果能看到羰基碳，中间隔了几根键？",
+    "en": "If the OCH_{2} protons see the carbonyl carbon, how many bonds lie between them?"
+   },
+   "text": {
+    "zh": "H-1'（4.18）与 δ 166.6 有交叉峰。",
+    "en": "H-1' (4.18) shows a cross peak to δ 166.6."
+   },
+   "rule": {
+    "zh": "HMBC 显示 2–3 根键的 H–C 相关。这里的路径是 H–C(1')–O–C(1)，三根键。",
+    "en": "HMBC shows H–C correlations over 2–3 bonds. Here the path is H–C(1')–O–C(1), three bonds."
+   },
+   "so": {
+    "zh": "乙氧基通过 O 接在羰基上：–C(=O)–O–CH_{2}CH_{3}，是乙酯。",
+    "en": "The ethoxy group is attached to the carbonyl through O: –C(=O)–O–CH_{2}CH_{3}, an ethyl ester."
+   },
+   "reveal": {
+    "bonds": [
+     "b1o"
+    ]
+   },
+   "arrows": [
+    {
+     "from": "C5",
+     "to": "C1",
+     "kind": "hmbc"
+    }
+   ],
+   "atoms": [
+    "C1"
+   ]
+  },
+  {
+   "title": {
+    "zh": "HMBC：烯基接在哪",
+    "en": "HMBC: where the alkene attaches"
+   },
+   "spectrum": "hmbc",
+   "zoom": {
+    "x": [
+     7.6,
+     5.2
+    ],
+    "y": [
+     180,
+     100
+    ]
+   },
+   "peaks": [
+    "m4",
+    "m5"
+   ],
+   "text": {
+    "zh": "H-2（5.84）和 H-3（6.98）也都与 δ 166.6 相关。",
+    "en": "H-2 (5.84) and H-3 (6.98) both correlate to δ 166.6 as well."
+   },
+   "rule": {
+    "zh": "H-2 到 C-1 是两根键，H-3 到 C-1 是三根键，都在 HMBC 的范围内。",
+    "en": "H-2 to C-1 is two bonds and H-3 to C-1 is three bonds. Both are within HMBC range."
+   },
+   "so": {
+    "zh": "C-2 直接连羰基。两个片段在 C-1 汇合，骨架完成。",
+    "en": "C-2 is bonded to the carbonyl. Both fragments meet at C-1 and the skeleton is complete."
+   },
+   "check": {
+    "zh": "注意：这两个交叉峰是按结构预期画的（灰色虚线圈，标 *），所引来源的正文没有逐个列出它们。位移的解释是：与 C=O 共轭使 β 位的 H-3 去屏蔽到 6.98，α 位的 H-2 留在 5.84。",
+    "en": "Note: these two cross peaks are drawn as expected from the structure (grey dashed rings, marked *). The cited sources do not list them individually. The shifts fit: conjugation with C=O deshields the β proton H-3 to 6.98, while the α proton H-2 stays at 5.84."
+   },
+   "reveal": {
+    "bonds": [
+     "b12"
+    ]
+   },
+   "arrows": [
+    {
+     "from": "C2",
+     "to": "C1",
+     "kind": "hmbc"
+    },
+    {
+     "from": "C3",
+     "to": "C1",
+     "kind": "hmbc",
+     "bend": -1
+    }
+   ],
+   "atoms": [
+    "C1"
+   ]
+  },
+  {
+   "title": {
+    "zh": "用剩下的 HMBC 峰交叉检查",
+    "en": "Cross-check with the remaining HMBC peaks"
+   },
+   "spectrum": "hmbc",
+   "peaks": [
+    "m2",
+    "m3",
+    "m6",
+    "m7",
+    "m8"
+   ],
+   "text": {
+    "zh": "其余的峰都应当能在结构上找到 2–3 键的路径：H-4 到 C-3 和 C-2，H-2 到 C-4，H-1' 到 C-2'，H-2' 到 C-1'。其中只有 H-1'/C-2' 是来源明确列出的，其余按结构预期。",
+    "en": "Every remaining peak should have a 2–3 bond path in the structure: H-4 to C-3 and C-2, H-2 to C-4, H-1' to C-2', H-2' to C-1'. Only H-1'/C-2' is listed explicitly by a source. The rest are expected from the structure."
+   },
+   "so": {
+    "zh": "预期的相关峰与结构没有矛盾。拿到自己的 HMBC 谱时，要逐个对一遍。",
+    "en": "The expected correlations are consistent with the structure. With your own HMBC spectrum, tick them off one by one."
+   },
+   "arrows": [
+    {
+     "from": "C4",
+     "to": "C2",
+     "kind": "hmbc"
+    },
+    {
+     "from": "C2",
+     "to": "C4",
+     "kind": "hmbc",
+     "bend": -1
+    },
+    {
+     "from": "C6",
+     "to": "C5",
+     "kind": "hmbc"
+    }
+   ]
+  },
+  {
+   "title": {
+    "zh": "最后核对",
+    "en": "Final check"
+   },
+   "spectrum": "h1",
+   "peaks": [],
+   "final": true,
+   "text": {
+    "zh": "回头核对：C_{6}H_{10}O_{2} 的原子都用上了，两个不饱和度是 C=C 和 C=O，5 个氢信号和 6 个碳信号全部归属，J = 15.5 Hz 给出 E 构型。",
+    "en": "Check back: every atom of C_{6}H_{10}O_{2} is used, the two degrees of unsaturation are C=C and C=O, all 5 proton and 6 carbon signals are assigned, and J = 15.5 Hz gives the E geometry."
+   },
+   "so": {
+    "zh": "结构确定：(E)-丁-2-烯酸乙酯。",
+    "en": "The structure is settled: ethyl (E)-but-2-enoate."
+   }
+  }
+ ],
+ "sources": [
+  {
+   "label": "University of Utah, Dept. of Chemistry: ethyl trans-crotonate NMR report (500 MHz)",
+   "url": "https://www.chemistry.utah.edu/wp-content/uploads/sites/15/2024/11/ethyltranscrotonate.pdf",
+   "covers": {
+    "zh": "实测：全部 5 个 ^{1}H 位移（6.978、5.841、4.180、1.877、1.282）和 5 个 ^{13}C 位移（166.58、122.79、60.08、17.92、14.26），裂分形状，以及 COSY 的 4 个相关（含 H-4/H-2 的弱峰）。该报告没有给出 J 的数值；它的碳谱表把 C-3 误印为 77.017（溶剂峰的位置），所以 C-3 的 144.5 不是出自这份实测。",
+    "en": "Measured: all five ^{1}H shifts (6.978, 5.841, 4.180, 1.877, 1.282) and five ^{13}C shifts (166.58, 122.79, 60.08, 17.92, 14.26), the multiplet shapes, and the four COSY correlations (including the weak H-4/H-2 peak). The report gives no J values in Hz, and its carbon table misprints C-3 as 77.017 (the solvent position), so 144.5 for C-3 is not from this measurement."
+   }
+  },
+  {
+   "label": "Magritek Spinsolve case study: ethyl crotonate (60 MHz, CDCl3)",
+   "url": "https://magritek.com/wp-content/uploads/2020/06/Case-Study-Spinsolve-Ethylcrotonate.pdf",
+   "covers": {
+    "zh": "实测：HMBC 中 OCH_{2} 的氢与羰基碳和 CH_{3} 碳相关；COSY 的相关。",
+    "en": "Measured: the HMBC correlations from the OCH_{2} protons to the carbonyl carbon and to the CH_{3} carbon; the COSY correlations."
+   }
+  }
+ ]
+}
