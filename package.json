@@ -1,21 +1,60 @@
 {
   "name": "dsh-nmr-walkthrough",
-  "version": "1.2.0",
-  "description": "MCP server and skill that build click-to-advance, bilingual NMR structure-solving walkthroughs from real, sourced data. Works with Claude Code, Codex, Antigravity, Qoder, WorkBuddy, Doubao Work and DeepSeek Harness.",
+  "version": "1.3.0",
+  "description": "MCP server and Agent Skill that build click-to-advance, bilingual NMR structure-solving walkthroughs from real, sourced data. Works with Claude Code, Claude Desktop, Codex, Cursor, VS Code Copilot, Gemini CLI, Antigravity, Windsurf, Kiro, Cline, Zed, opencode, Qoder, WorkBuddy, Doubao Work and DeepSeek Harness.",
   "type": "module",
   "main": "dsh/index.js",
-  "bin": { "nmr-walkthrough-mcp": "server.mjs" },
+  "bin": {
+    "nmr-walkthrough-mcp": "server.mjs"
+  },
   "exports": {
     ".": "./dsh/index.js",
     "./package.json": "./package.json",
     "./cordis.patch.yml": "./cordis.patch.yml"
   },
-  "files": ["server.mjs", "lib/", "dsh/", "skills/", "standalone-skill/", "examples/", "scripts/", "SCHEMA.md", "STYLE-GUIDE.md", "cordis.patch.yml", "README.md", "LICENSE"],
-  "scripts": { "test": "node scripts/test.mjs" },
+  "files": [
+    "GEMINI.md",
+    "LICENSE",
+    "README.md",
+    "SCHEMA.md",
+    "STYLE-GUIDE.md",
+    "cordis.patch.yml",
+    "dsh/",
+    "examples/",
+    "gemini-extension.json",
+    "lib/",
+    "manifest.json",
+    "scripts/",
+    "server.json",
+    "server.mjs",
+    "skills/",
+    "standalone-skill/"
+  ],
+  "scripts": {
+    "test": "node scripts/test.mjs",
+    "pack:mcpb": "node scripts/pack-mcpb.mjs",
+    "pack:skill": "node scripts/pack-skill.mjs"
+  },
   "license": "MIT",
   "author": "Jiasheng Fu (https://github.com/FelixJiashengFu)",
-  "keywords": ["nmr", "mcp", "skill", "chemistry", "education", "dsh", "deepseek-harness"],
-  "engines": { "node": ">=18", "dsh": ">=0.2.0-rc.1" },
+  "keywords": [
+    "agent-skill",
+    "chemistry",
+    "claude",
+    "deepseek-harness",
+    "dsh",
+    "education",
+    "gemini-cli-extension",
+    "mcp",
+    "mcp-server",
+    "nmr",
+    "nmr-spectroscopy",
+    "skill"
+  ],
+  "engines": {
+    "node": ">=18",
+    "dsh": ">=0.2.0-rc.1"
+  },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.4",
     "@deepseek-ai/dsh-mcp-client": ">=0.2.0-rc.1",
@@ -23,10 +62,29 @@
     "@deepseek-ai/schemastery": "^3.18.2"
   },
   "peerDependenciesMeta": {
-    "@deepseek-ai/cordis": { "optional": true },
-    "@deepseek-ai/dsh-mcp-client": { "optional": true },
-    "@deepseek-ai/dsh-skill-filesystem": { "optional": true },
-    "@deepseek-ai/schemastery": { "optional": true }
+    "@deepseek-ai/cordis": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-mcp-client": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-skill-filesystem": {
+      "optional": true
+    },
+    "@deepseek-ai/schemastery": {
+      "optional": true
+    }
   },
-  "dsh": { "bundle": { "patch": "./cordis.patch.yml" } }
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "mcpName": "io.github.FelixJiashengFu/nmr-walkthrough",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FelixJiashengFu/nmr-walkthrough.git"
+  },
+  "homepage": "https://github.com/FelixJiashengFu/nmr-walkthrough#readme",
+  "bugs": "https://github.com/FelixJiashengFu/nmr-walkthrough/issues"
 }

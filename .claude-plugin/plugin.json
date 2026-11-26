@@ -1,9 +1,18 @@
 {
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "nmr-walkthrough",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Explain NMR structure problems as click-to-advance, bilingual (中文/English) web walkthroughs built only from real, sourced data.",
-  "author": { "name": "Jiasheng Fu", "url": "https://github.com/FelixJiashengFu" },
+  "author": {
+    "name": "Jiasheng Fu",
+    "url": "https://github.com/FelixJiashengFu"
+  },
   "license": "MIT",
-  "keywords": ["nmr", "chemistry", "education", "mcp", "skill"]
+  "keywords": [
+    "nmr",
+    "chemistry",
+    "education",
+    "mcp",
+    "skill"
+  ]
 }

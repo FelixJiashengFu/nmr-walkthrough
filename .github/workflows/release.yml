@@ -1,0 +1,70 @@
+name: Release
+
+# Push a tag like v1.3.0 to publish:
+#   1. a GitHub Release with nmr-walkthrough.mcpb (Claude Desktop) and the self-contained skill zip;
+#   2. the npm package and the MCP Registry entry, only when the repository secret NPM_TOKEN is set.
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "lts/*"
+      - name: Check the tag matches every manifest
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          for f in package.json .claude-plugin/plugin.json gemini-extension.json manifest.json server.json; do
+            V=$(node -p "require('./$f').version")
+            [ "$V" = "$TAG" ] || { echo "$f is at $V, tag is $TAG"; exit 1; }
+          done
+      - run: npm test
+      - name: Build release assets
+        run: |
+          node scripts/pack-mcpb.mjs
+          (cd standalone-skill && zip -qr ../dist/nmr-step-walkthrough-skill.zip nmr-step-walkthrough)
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/nmr-walkthrough.mcpb dist/nmr-step-walkthrough-skill.zip --title "$GITHUB_REF_NAME" --generate-notes
+
+  publish:
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for OIDC authentication to the MCP Registry
+      contents: read
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - name: Skip when NPM_TOKEN is not set
+        if: env.NPM_TOKEN == ''
+        run: echo "NPM_TOKEN secret not set, so npm and MCP Registry publishing is skipped."
+      - uses: actions/checkout@v5
+        if: env.NPM_TOKEN != ''
+      - uses: actions/setup-node@v5
+        if: env.NPM_TOKEN != ''
+        with:
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
+      - name: Publish package to npm
+        if: env.NPM_TOKEN != ''
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Install mcp-publisher
+        if: env.NPM_TOKEN != ''
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+      - name: Authenticate to MCP Registry
+        if: env.NPM_TOKEN != ''
+        run: ./mcp-publisher login github-oidc
+      - name: Publish server to MCP Registry
+        if: env.NPM_TOKEN != ''
+        run: ./mcp-publisher publish

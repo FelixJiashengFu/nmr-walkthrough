@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Install the MCP server entry and the skill for one coding agent.
-//   node scripts/install.mjs <claude|codex|antigravity|qoder|workbuddy|dsh|doubao> [--dry-run]
+//   node scripts/install.mjs <tool> [--dry-run]      (run without a tool to list them)
 // It copies skills/nmr-step-walkthrough into the agent's user-level skills folder and adds a
 // "nmr-walkthrough" stdio server to the agent's MCP config. Existing entries of other servers are kept.
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync } from 'node:fs';
@@ -15,6 +15,7 @@ const dry = process.argv.includes('--dry-run');
 const tool = (process.argv[2] || '').toLowerCase();
 const NAME = 'nmr-walkthrough';
 const entry = { command: 'node', args: [server] };
+const typed = { type: 'stdio', ...entry };   // Cursor and VS Code Copilot document "type": "stdio"
 
 const TOOLS = {
   claude:      { skills: join(home, '.claude', 'skills'),            hint: `claude mcp add ${NAME} --scope user -- node "${server}"` },
@@ -22,6 +23,20 @@ const TOOLS = {
   antigravity: { skills: join(home, '.gemini', 'config', 'skills'),  json: join(home, '.gemini', 'config', 'mcp_config.json') },
   qoder:       { skills: join(home, '.qoder', 'skills'),             json: join(home, '.qoder', 'settings.json') },
   workbuddy:   { skills: join(home, '.workbuddy', 'skills'),         json: join(home, '.workbuddy', 'mcp.json') },
+  cursor:      { skills: join(home, '.cursor', 'skills'),            json: join(home, '.cursor', 'mcp.json'), entry: typed },
+  vscode:      { skills: join(home, '.copilot', 'skills'),           json: join(home, '.copilot', 'mcp-config.json'), entry: typed },
+  gemini:      { hint: `gemini extensions install https://github.com/FelixJiashengFu/nmr-walkthrough   (or the local folder: gemini extensions install "${root}")\n  The extension brings both the MCP server and the skill.` },
+  windsurf:    { json: join(home, '.codeium', 'windsurf', 'mcp_config.json'), skills: join(home, '.agents', 'skills'),
+                 note: 'Windsurf documents no skills folder; the skill was copied to ~/.agents/skills, the shared location many agents read. If Cascade does not see the MCP server, open "Open MCP config file" in Cascade and paste the same entry there.' },
+  kiro:        { skills: join(home, '.kiro', 'skills'),              json: join(home, '.kiro', 'settings', 'mcp.json') },
+  cline:       { skills: join(home, '.cline', 'skills'),             json: join(home, '.cline', 'data', 'settings', 'cline_mcp_settings.json'),
+                 note: 'That MCP file is the one Cline CLI reads. In the VS Code extension, open Cline → "Configure MCP Servers" and paste the same "nmr-walkthrough" entry.' },
+  zed:         { skills: join(home, '.agents', 'skills'),
+                 hint: `Zed keeps MCP servers in its settings file, which may contain comments, so this script does not edit it.\n  Run "zed: open settings file" and add:\n  "context_servers": { "${NAME}": { "command": "node", "args": [${JSON.stringify(server)}], "env": {} } }` },
+  opencode:    { skills: join(home, '.config', 'opencode', 'skills'),
+                 hint: `opencode mcp add ${NAME} --global -- node "${server}"` },
+  agents:      { skills: join(home, '.agents', 'skills'), note: 'Skill only, in the shared ~/.agents/skills folder (read by Codex, Cursor, Gemini CLI, Zed, opencode and others).' },
+  'claude-desktop': { hint: 'Download nmr-walkthrough.mcpb from the latest GitHub release (or build it: node scripts/pack-mcpb.mjs) and double-click it, or drag it into Claude Desktop → Settings → Extensions.' },
   dsh:         { hint: `dsh plugin --profile desktop add "${root}"   (quit the DSH desktop app first; the plugin brings both the server and the skill)` },
   doubao:      { hint: [
     '豆包工作 (Doubao Work) is set up in its own window, not through config files:',
@@ -36,7 +51,7 @@ const TOOLS = {
 };
 
 const t = TOOLS[tool];
-if (!t) { console.error(`usage: node scripts/install.mjs <${Object.keys(TOOLS).join('|')}> [--dry-run]`); process.exit(2); }
+if (!t) { console.error(`usage: node scripts/install.mjs <tool> [--dry-run]\ntools: ${Object.keys(TOOLS).join(', ')}`); process.exit(2); }
 const say = m => console.log((dry ? '[dry-run] ' : '') + m);
 
 if (t.skills) {
@@ -51,8 +66,8 @@ if (t.skills) {
 }
 if (t.json) {
   let cfg = {};
-  if (existsSync(t.json)) { try { cfg = JSON.parse(readFileSync(t.json, 'utf8') || '{}'); } catch { console.error(`${t.json} is not valid JSON. Fix it, or add this by hand:\n` + JSON.stringify({ mcpServers: { [NAME]: entry } }, null, 2)); process.exit(1); } }
-  cfg.mcpServers = { ...(cfg.mcpServers || {}), [NAME]: entry };
+  if (existsSync(t.json)) { try { cfg = JSON.parse(readFileSync(t.json, 'utf8') || '{}'); } catch { console.error(`${t.json} is not valid JSON. Fix it, or add this by hand:\n` + JSON.stringify({ mcpServers: { [NAME]: t.entry || entry } }, null, 2)); process.exit(1); } }
+  cfg.mcpServers = { ...(cfg.mcpServers || {}), [NAME]: t.entry || entry };
   say(`server -> ${t.json}`);
   if (!dry) { mkdirSync(dirname(t.json), { recursive: true }); writeFileSync(t.json, JSON.stringify(cfg, null, 2) + '\n'); }
 }
@@ -63,4 +78,5 @@ if (t.toml) {
   else { say(`server -> ${t.toml}`); if (!dry) { mkdirSync(dirname(t.toml), { recursive: true }); appendFileSync(t.toml, block); } }
 }
 if (t.hint) console.log(`run this yourself:\n  ${t.hint}`);
+if (t.note) console.log('note: ' + t.note);
 console.log('Restart the agent (or reload its MCP servers and skills) to pick this up.');

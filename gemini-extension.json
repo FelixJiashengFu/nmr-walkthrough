@@ -1,0 +1,13 @@
+{
+  "name": "nmr-walkthrough",
+  "version": "1.3.0",
+  "description": "Explain NMR structure problems as click-to-advance, bilingual (中文/English) web walkthroughs built only from real, sourced data.",
+  "contextFileName": "GEMINI.md",
+  "mcpServers": {
+    "nmr-walkthrough": {
+      "command": "node",
+      "args": ["${extensionPath}${/}server.mjs"],
+      "cwd": "${workspacePath}"
+    }
+  }
+}

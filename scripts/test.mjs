@@ -36,4 +36,11 @@ try {
   }
   ok(j?.result?.tools?.length === 3, 'HTTP transport lists 3 tools');
 } finally { srv.kill(); }
+// Every manifest carries the same version.
+const ver = f => JSON.parse(readFileSync(join(root, f), 'utf8')).version;
+const vs = ['package.json', '.claude-plugin/plugin.json', 'gemini-extension.json', 'manifest.json', 'server.json'].map(ver);
+const srvVer = (readFileSync(join(root, 'server.mjs'), 'utf8').match(/version: '([^']+)'/) || [])[1];
+const reg = JSON.parse(readFileSync(join(root, 'server.json'), 'utf8'));
+ok(new Set([...vs, srvVer, reg.packages[0].version]).size === 1, `all manifests at the same version (${vs.join(', ')}, server ${srvVer})`);
+ok(reg.name === JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).mcpName, 'server.json name matches package.json mcpName');
 process.exit(fail ? 1 : 0);

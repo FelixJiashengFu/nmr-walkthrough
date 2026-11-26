@@ -1,0 +1,10 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.FelixJiashengFu/nmr-walkthrough",
+  "description": "Click-to-advance bilingual NMR structure-solving walkthroughs, built only from sourced data.",
+  "repository": { "url": "https://github.com/FelixJiashengFu/nmr-walkthrough", "source": "github" },
+  "version": "1.3.0",
+  "packages": [
+    { "registryType": "npm", "identifier": "dsh-nmr-walkthrough", "version": "1.3.0", "transport": { "type": "stdio" } }
+  ]
+}

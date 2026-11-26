@@ -3,7 +3,8 @@
 //   node server.mjs                      stdio transport (default)
 //   node server.mjs --http [port]        Streamable HTTP transport on /mcp (default port 8765)
 //   node server.mjs --build spec.json out.html [--standalone]   CLI
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, accessSync, constants } from 'node:fs';
+import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import { createInterface } from 'node:readline';
@@ -36,10 +37,18 @@ const TOOLS = [
     description: 'Build a click-to-advance, bilingual (中文/English) NMR structure-solving walkthrough as one self-contained HTML page: 1D spectra drawn from the peak list and 2D maps (COSY/HSQC/HMBC...) with zoom and highlighting, a structure that grows step by step with correlation arrows, a running assignment table, read-aloud and a full transcript. Refuses specs without `sources`: every shift, J and cross peak must come from the user\'s spectra or a cited measured source; flag anything else with est / Jest / expected. Returns the file path (and the HTML if return_html is true).',
     inputSchema: { type: 'object', required: ['spec'], properties: {
       spec: SPEC_SCHEMA,
-      output_path: { type: 'string', description: 'Where to write the .html file. Default: ./nmr-walkthroughs/<slug>.html (or $NMR_WALKTHROUGH_DIR).' },
+      output_path: { type: 'string', description: 'Where to write the .html file. Default: $NMR_WALKTHROUGH_DIR/<slug>.html, else ./nmr-walkthroughs/ when the working folder is writable, else ~/nmr-walkthroughs/.' },
       format: { type: 'string', enum: ['artifact', 'standalone'], description: 'artifact (default): a page fragment ready to publish as a Claude Artifact, also opens directly in a browser. standalone: a complete HTML document.' },
       return_html: { type: 'boolean', description: 'Also return the HTML text in the result.' } } } },
 ];
+
+// Desktop apps often start servers with "/" or a read-only folder as the working directory.
+function outputDir() {
+  if (process.env.NMR_WALKTHROUGH_DIR) return process.env.NMR_WALKTHROUGH_DIR;
+  const cwd = process.cwd();
+  try { if (cwd !== '/' && cwd !== homedir()) { accessSync(cwd, constants.W_OK); return join(cwd, 'nmr-walkthroughs'); } } catch {}
+  return join(homedir(), 'nmr-walkthroughs');
+}
 
 function call(name, args = {}) {
   if (name === 'nmr_walkthrough_guide')
@@ -52,7 +61,7 @@ function call(name, args = {}) {
     const { html, warnings } = build(args.spec, { format: args.format });
     const t = typeof args.spec.title === 'string' ? args.spec.title : args.spec.title.en || args.spec.title.zh;
     const slug = String(args.spec.shortTitle || t).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'walkthrough';
-    const out = resolve(args.output_path || join(process.env.NMR_WALKTHROUGH_DIR || 'nmr-walkthroughs', slug + '.html'));
+    const out = resolve(args.output_path || join(outputDir(), slug + '.html'));
     mkdirSync(dirname(out), { recursive: true });
     writeFileSync(out, html);
     const head = JSON.stringify({ path: out, bytes: html.length, steps: args.spec.steps.length, warnings }, null, 2);
@@ -66,7 +75,7 @@ function handle(msg, { http = false } = {}) {
   const { id, method, params } = msg || {};
   if (id === undefined || id === null) return null; // notification
   const ok = result => ({ jsonrpc: '2.0', id, result });
-  if (method === 'initialize') return ok({ protocolVersion: params?.protocolVersion || '2025-06-18', capabilities: { tools: {} }, serverInfo: { name: 'nmr-walkthrough', version: '1.2.0' },
+  if (method === 'initialize') return ok({ protocolVersion: params?.protocolVersion || '2025-06-18', capabilities: { tools: {} }, serverInfo: { name: 'nmr-walkthrough', version: '1.3.0' },
     instructions: 'Builds click-to-advance bilingual NMR structure-solving walkthroughs. Call nmr_walkthrough_guide first, write the spec, then build_nmr_walkthrough. All data must be real: use the user\'s own spectra or a cited measured source, list it in spec.sources, and never present recalled or guessed values as measured.' });
   if (method === 'ping') return ok({});
   if (method === 'tools/list') return ok({ tools: TOOLS });
