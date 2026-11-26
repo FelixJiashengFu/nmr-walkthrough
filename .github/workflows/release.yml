@@ -1,11 +1,18 @@
 name: Release
 
-# Push a tag like v1.3.0 to publish:
+# Push a tag like v1.3.0, or publish a release for a new tag on the GitHub Releases page, to publish:
 #   1. a GitHub Release with nmr-walkthrough.mcpb (Claude Desktop) and the self-contained skill zip;
 #   2. the npm package and the MCP Registry entry, only when the repository secret NPM_TOKEN is set.
 on:
   push:
     tags: ["v*"]
+  release:
+    types: [published]
+
+# A release made on the website can fire both events; run them one after the other.
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
 
 jobs:
   release:
@@ -32,7 +39,12 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/nmr-walkthrough.mcpb dist/nmr-step-walkthrough-skill.zip --title "$GITHUB_REF_NAME" --generate-notes
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/nmr-walkthrough.mcpb dist/nmr-step-walkthrough-skill.zip --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/nmr-walkthrough.mcpb dist/nmr-step-walkthrough-skill.zip --title "$GITHUB_REF_NAME" --generate-notes
+          fi
 
   publish:
     needs: release
@@ -54,17 +66,20 @@ jobs:
           node-version: "lts/*"
           registry-url: "https://registry.npmjs.org"
       - name: Publish package to npm
+        id: npm
         if: env.NPM_TOKEN != ''
-        run: npm publish --access public
+        run: |
+          V=$(node -p "require('./package.json').name + '@' + require('./package.json').version")
+          if npm view "$V" version >/dev/null 2>&1; then echo "$V is already on npm, so this run skips both registries"; else npm publish --access public && echo "fresh=true" >> "$GITHUB_OUTPUT"; fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Install mcp-publisher
-        if: env.NPM_TOKEN != ''
+        if: steps.npm.outputs.fresh == 'true'
         run: |
           curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
       - name: Authenticate to MCP Registry
-        if: env.NPM_TOKEN != ''
+        if: steps.npm.outputs.fresh == 'true'
         run: ./mcp-publisher login github-oidc
       - name: Publish server to MCP Registry
-        if: env.NPM_TOKEN != ''
+        if: steps.npm.outputs.fresh == 'true'
         run: ./mcp-publisher publish
