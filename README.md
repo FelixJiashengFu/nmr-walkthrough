@@ -198,7 +198,15 @@ node server.mjs --build examples/vanillin.json vanillin.html --standalone
 - `examples/vanillin.json`：进阶。C₈H₈O₃，溶剂峰混在芳香区，两个氢重叠要靠 HMQC 拆开，HMBC 定位三个取代基，最后用碳位移规律在两个候选之间取舍。
 - `examples/ibuprofen.json`：换个类型。C₁₃H₁₈O₂，60 MHz 台式谱，带实测 J 值；从裂分搭出异丁基，碳谱的对称性定出对位取代，HSQC-ME 拆开两个偶然重叠的碳，HMBC 分清两组芳碳。
 
-三个示例的数据来源写在各自 JSON 的 `sources` 里，页面的归属表底部也会列出。其中两份来源是大学的学生实验报告，本身有个别笔误，示例里对不上的地方都已注明。
+多谱联用示例（¹H、¹³C 加 COSY、HSQC/HMQC、HMBC 一起解）：
+
+- `examples/estragole.json`：入门。C₁₀H₁₂O，800 MHz。碳谱 10 个碳只有 8 个峰，从对称性读出对二取代苯环；COSY 看出烯丙基的耦合网（含两个四键远程耦合）；HMQC 分清 OCH₃ 邻位和间位的两对芳 CH。来源没有做 HMBC，最后一步说明了少了它会缺什么。
+- `examples/pulegone.json`：中等。C₁₀H₁₆O，BMRB 500 MHz 数据。积分只数到 15 个 H，HSQC 找出藏在甲基单峰下面的那个 H；DEPT 分出碳的类型；8 个 HMBC 峰一步步把甲基、C=C 和环上的 CH₂ 接成环。J 值由记录里的谱线位置换算。
+- `examples/melatonin.json`：进阶。C₁₃H₁₆N₂O₂，500 MHz，五种谱都有。氢谱少两个 H（N–H 交换掉了）；HMBC 搭出乙酰胺侧链；芳香区的 d、dd、d 加 COSY 定出取代位置；HMBC 把甲氧基放在 C5、把侧链放在吲哚的 C3。
+
+每个示例的数据来源写在 JSON 的 `sources` 里，页面的归属表底部也会列出，并逐项说明来源给了什么、没给什么。来源没有给出的值都在页面上标了 ≈ 或 *。有几份来源是大学的学生实验报告，本身有个别笔误或缺项（比如褪黑素的报告没写溶剂），示例里都已注明。
+
+Multi-spectrum examples (¹H and ¹³C solved together with COSY, HSQC/HMQC and HMBC): `estragole.json` (starter, 800 MHz, symmetry plus the allyl COSY network; the source has no HMBC), `pulegone.json` (intermediate, BMRB 500 MHz: a proton hidden under a methyl singlet, DEPT, eight HMBC peaks close the ring) and `melatonin.json` (advanced, all five spectra: exchanged N–H, an acetamide chain from HMBC, the indole substitution from COSY and HMBC).
 
 ## 文件 / Files
 

@@ -2,7 +2,7 @@
 // Build a self-contained copy of the skill: SKILL.md plus the builder, in one folder that can be
 // dragged into an agent that only accepts a skill folder (e.g. Doubao Work "上传技能").
 //   node scripts/pack-skill.mjs [outDir]     default: standalone-skill/nmr-step-walkthrough
-import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -13,7 +13,7 @@ export function pack(out = join(root, 'standalone-skill', 'nmr-step-walkthrough'
   mkdirSync(join(b, 'examples'), { recursive: true });
   for (const f of ['server.mjs', 'SCHEMA.md', 'STYLE-GUIDE.md', 'LICENSE']) cpSync(join(root, f), join(b, f));
   cpSync(join(root, 'lib'), join(b, 'lib'), { recursive: true });
-  for (const f of ['ethyl-crotonate.json', 'vanillin.json', 'ibuprofen.json']) cpSync(join(root, 'examples', f), join(b, 'examples', f));
+  for (const f of readdirSync(join(root, 'examples')).filter(f => f.endsWith('.json'))) cpSync(join(root, 'examples', f), join(b, 'examples', f));
   const md = readFileSync(join(root, 'skills', 'nmr-step-walkthrough', 'SKILL.md'), 'utf8');
   const from = md.indexOf('2. Otherwise, if this skill sits inside'), to = md.indexOf('\n3. Otherwise hand-write');
   if (from < 0 || to < 0) throw new Error('SKILL.md: build steps not found');

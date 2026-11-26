@@ -1,5 +1,5 @@
-// Smoke test: both examples build, a spec without sources is rejected, the MCP server answers.
-import { readFileSync, mkdtempSync } from 'node:fs';
+// Smoke test: every example builds, a spec without sources is rejected, the MCP server answers.
+import { readFileSync, readdirSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -8,7 +8,7 @@ import { build, validate } from '../lib/build.mjs';
 import { pack } from './pack-skill.mjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 let fail = 0; const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); if (!c) fail++; };
-for (const ex of ['ethyl-crotonate', 'vanillin', 'ibuprofen']) {
+for (const ex of readdirSync(join(root, 'examples')).filter(f => f.endsWith('.json')).map(f => f.slice(0, -5))) {
   const spec = JSON.parse(readFileSync(join(root, 'examples', ex + '.json'), 'utf8'));
   const { html, warnings } = build(spec, { format: 'standalone' });
   ok(html.length > 20000 && warnings.length === 0, `${ex}: builds with no warnings`);
