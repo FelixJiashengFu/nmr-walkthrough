@@ -133,8 +133,9 @@ node server.mjs --build examples/vanillin.json vanillin.html --standalone
 
 - `examples/ethyl-crotonate.json`：入门。C₆H₁₀O₂，从 J 值读出 E 式双键，COSY 走一遍，HMBC 接上酯基。
 - `examples/vanillin.json`：进阶。C₈H₈O₃，溶剂峰混在芳香区，两个氢重叠要靠 HMQC 拆开，HMBC 定位三个取代基，最后用碳位移规律在两个候选之间取舍。
+- `examples/ibuprofen.json`：换个类型。C₁₃H₁₈O₂，60 MHz 台式谱，带实测 J 值；从裂分搭出异丁基，碳谱的对称性定出对位取代，HSQC-ME 拆开两个偶然重叠的碳，HMBC 分清两组芳碳。
 
-两个示例的数据来源写在各自 JSON 的 `sources` 里，页面的归属表底部也会列出。其中两份来源是大学的学生实验报告，本身有个别笔误，示例里对不上的地方都已注明。
+三个示例的数据来源写在各自 JSON 的 `sources` 里，页面的归属表底部也会列出。其中两份来源是大学的学生实验报告，本身有个别笔误，示例里对不上的地方都已注明。
 
 ## 文件 / Files
 

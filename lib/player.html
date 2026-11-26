@@ -283,14 +283,16 @@ function draw1d(W, H, hl){
       labs.push({cx, top, txt, hot, w: txt.length*(hot ? 7.3 : 6.8)});
     }
   }
-  let row = 0;
-  labs.forEach((a, k) => { const near = b => b && Math.abs(b.cx-a.cx) < (a.w+b.w)/2+8, crowded = near(labs[k-1]) || near(labs[k+1]);
-    row = crowded && near(labs[k-1]) ? row+1 : 0;
-    const ty = crowded ? 14+(row%3)*15 : Math.max(13, a.top-9), col = `var(${a.hot ? '--hot' : '--ok'})`;
+  const rows = [];
+  labs.forEach(a => { a.w *= 1.12; a.x0 = a.cx < a.w/2+6 ? Math.max(6, a.cx) : a.cx > W-a.w/2-6 ? Math.min(W-6, a.cx)-a.w : a.cx-a.w/2; a.x1 = a.x0+a.w; });
+  labs.forEach((a, k) => { const near = b => b && a.x0 < b.x1+8 && b.x0 < a.x1+8, crowded = near(labs[k-1]) || near(labs[k+1]);
+    let row = 0;
+    if (crowded) { while (row < 5 && (rows[row] || []).some(near)) row++; (rows[row] = rows[row] || []).push(a); }
+    const ty = crowded ? 14+row*14 : Math.max(13, a.top-9), col = `var(${a.hot ? '--hot' : '--ok'})`;
     if (crowded) lab += `<line x1="${a.cx}" x2="${a.cx}" y1="${ty+4}" y2="${Math.max(ty+6, a.top-3)}" stroke="${col}" stroke-width=".9" opacity=".55"/>`;
     lab += `<text x="${Math.min(W-6, Math.max(6, a.cx))}" y="${ty}" font-size="${a.hot ? 12.5 : 11.5}" font-weight="700" text-anchor="${a.cx < a.w/2+6 ? 'start' : a.cx > W-a.w/2-6 ? 'end' : 'middle'}" style="fill:${col}">${esc(a.txt)}</text>`; });
   let d = ''; tr.xs.forEach((x, k) => d += (k ? 'L' : 'M')+X(x).toFixed(1)+' '+Math.max(t-10, Y(tr.ys[k])).toFixed(1));
-  o += `<path d="${d}L${X(lo)} ${base}L${X(hi)} ${base}Z" fill="var(--trace-fill)" stroke="none"/><path d="${d}" fill="none" stroke="var(--trace)" stroke-width="1.5" stroke-linejoin="round"/>` + lab + axisX(hi, lo, X, base, `δ(${nuc(sp.nucleus)}) / ppm`, W);
+  o += `<path d="${d}L${X(tr.xs.at(-1)).toFixed(1)} ${base}L${X(tr.xs[0]).toFixed(1)} ${base}Z" fill="var(--trace-fill)" stroke="none"/><path d="${d}" fill="none" stroke="var(--trace)" stroke-width="1.5" stroke-linejoin="round"/>` + lab + axisX(hi, lo, X, base, `δ(${nuc(sp.nucleus)}) / ppm`, W);
   return {vb:`0 0 ${W} ${H}`, inner:o};
 }
 function draw2d(W, H, hl){

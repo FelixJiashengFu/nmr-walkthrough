@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path';
 import { build, validate } from '../lib/build.mjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 let fail = 0; const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); if (!c) fail++; };
-for (const ex of ['ethyl-crotonate', 'vanillin']) {
+for (const ex of ['ethyl-crotonate', 'vanillin', 'ibuprofen']) {
   const spec = JSON.parse(readFileSync(join(root, 'examples', ex + '.json'), 'utf8'));
   const { html, warnings } = build(spec, { format: 'standalone' });
   ok(html.length > 20000 && warnings.length === 0, `${ex}: builds with no warnings`);
