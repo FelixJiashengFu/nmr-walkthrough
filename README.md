@@ -44,17 +44,53 @@ cd nmr-walkthrough
 npm test   # 可选：自检
 ```
 
-然后按你用的工具选一种。安装脚本会把 Skill 复制到该工具的用户级技能目录，并把 MCP 服务器写进它的配置文件（保留已有的其他服务器）。加 `--dry-run` 可以只看不改。
+然后按你用的工具运行 `node scripts/install.mjs <工具名>`。脚本会把 Skill 复制到该工具的用户级技能目录，并把 MCP 服务器写进它的配置文件（保留已有的其他服务器）。只能在界面里添加的工具，脚本会打印出要粘贴的内容。加 `--dry-run` 可以只看不改。
 
-| 工具 Tool | 一条命令 One command | Skill 位置 | MCP 配置 |
+也可以不克隆：到 [Releases](https://github.com/FelixJiashengFu/nmr-walkthrough/releases) 下载 `nmr-walkthrough.mcpb`（Claude Desktop 双击安装）或 `nmr-step-walkthrough-skill.zip`（自带生成器的技能文件夹，适合只能上传技能的工具）。
+
+### 国内平台 / Chinese platforms
+
+| 工具 Tool | 命令 Command | Skill 位置 | MCP 配置 |
 |---|---|---|---|
-| Claude Code | 见下方插件方式 | 插件自带 | 插件自带 |
-| Codex | `node scripts/install.mjs codex` | `~/.agents/skills/` | `~/.codex/config.toml` |
-| Antigravity | `node scripts/install.mjs antigravity` | `~/.gemini/config/skills/` | `~/.gemini/config/mcp_config.json` |
-| Qoder | `node scripts/install.mjs qoder` | `~/.qoder/skills/` | `~/.qoder/settings.json` |
-| WorkBuddy | `node scripts/install.mjs workbuddy` | `~/.workbuddy/skills/` | `~/.workbuddy/mcp.json` |
-| DeepSeek Harness | 见下方插件方式 | 插件自带 | 插件自带 |
-| 豆包工作 Doubao Work | `node scripts/install.mjs doubao`（显示步骤） | 在界面里上传 | 在界面里新建连接器 |
+| 豆包工作 Doubao Work | `doubao`（打印步骤） | 界面上传 `standalone-skill/` | 界面新建自定义连接器（HTTP） |
+| Qoder（阿里） | `qoder` | `~/.qoder/skills/` | `~/.qoder/settings.json` |
+| 通义灵码 Lingma | `lingma` | `~/.lingma/skills/` | 界面：个人设置 → MCP 服务 → 手工添加 |
+| Qwen Code | `qwen` | `~/.qwen/skills/` | `~/.qwen/settings.json` |
+| WorkBuddy（腾讯） | `workbuddy` | `~/.workbuddy/skills/` | `~/.workbuddy/mcp.json` |
+| CodeBuddy（腾讯） | `codebuddy` | `~/.codebuddy/skills/` | `~/.codebuddy/mcp.json` |
+| Trae（字节） | `trae`（打印步骤） | `~/.agents/skills/` | 界面：设置 → MCP → 手动添加，或项目里的 `.trae/mcp.json` |
+| 文心快码 Comate（百度） | `comate` | `~/.comate/skills/` | `~/.comate/mcp.json` |
+| Kimi Code CLI（月之暗面） | `kimi` | `~/.kimi-code/skills/` | `~/.kimi-code/mcp.json` |
+| DeepSeek Harness | 插件，见下方 | 插件自带 | 插件自带 |
+| Cherry Studio | `cherry`（打印步骤） | 不安装 | 界面里添加 STDIO 服务器 |
+
+### 其他平台 / Other platforms
+
+| 工具 Tool | 命令 Command | Skill 位置 | MCP 配置 |
+|---|---|---|---|
+| Claude Code | 插件，见下方 | 插件自带 | 插件自带 |
+| Claude Desktop | 下载 `.mcpb` 双击 | 不需要 | 扩展自带 |
+| Codex | `codex` | `~/.agents/skills/` | `~/.codex/config.toml` |
+| Gemini CLI | `gemini extensions install https://github.com/FelixJiashengFu/nmr-walkthrough` | 扩展自带 | 扩展自带 |
+| Antigravity | `antigravity` | `~/.gemini/config/skills/` | `~/.gemini/config/mcp_config.json` |
+| Cursor | `cursor` | `~/.cursor/skills/` | `~/.cursor/mcp.json` |
+| VS Code Copilot | `vscode` | `~/.copilot/skills/` | `~/.copilot/mcp-config.json` |
+| Windsurf | `windsurf` | `~/.agents/skills/` | `~/.codeium/windsurf/mcp_config.json` |
+| Kiro | `kiro` | `~/.kiro/skills/` | `~/.kiro/settings/mcp.json` |
+| Cline | `cline` | `~/.cline/skills/` | `~/.cline/data/settings/cline_mcp_settings.json` |
+| Zed | `zed`（打印步骤） | `~/.agents/skills/` | 设置文件里的 `context_servers` |
+| opencode | `opencode`（打印命令） | `~/.config/opencode/skills/` | `opencode mcp add` |
+| 只要 Skill | `agents` | `~/.agents/skills/` | 无 |
+
+所有写 JSON 的工具用的都是同一种写法，只是文件位置不同：
+
+```json
+{
+  "mcpServers": {
+    "nmr-walkthrough": { "command": "node", "args": ["/绝对路径/nmr-walkthrough/server.mjs"] }
+  }
+}
+```
 
 ### Claude Code
 
@@ -77,21 +113,25 @@ args = ["/绝对路径/nmr-walkthrough/server.mjs"]
 
 并把 `skills/nmr-step-walkthrough` 复制到 `~/.agents/skills/`（或项目里的 `.agents/skills/`）。
 
-### Antigravity、Qoder、WorkBuddy
+### Gemini CLI 和 Qwen Code 扩展
 
-这三个工具用同一种 JSON 写法，只是文件位置不同（见上表）：
+仓库根目录的 `gemini-extension.json` 让它可以作为扩展安装，一次带上 MCP 服务器和 Skill：
 
-```json
-{
-  "mcpServers": {
-    "nmr-walkthrough": { "command": "node", "args": ["/绝对路径/nmr-walkthrough/server.mjs"] }
-  }
-}
+```bash
+gemini extensions install https://github.com/FelixJiashengFu/nmr-walkthrough
+qwen extensions install https://github.com/FelixJiashengFu/nmr-walkthrough   # Qwen Code 文档说会把 Gemini 扩展自动转换
 ```
+
+### 各工具的补充说明
 
 - Antigravity：也可以在智能体面板的"MCP Servers → Manage MCP Servers → View raw config"里粘贴。项目级位置是 `.agents/mcp_config.json` 和 `.agents/skills/`。
 - Qoder：命令行也可以用 `qodercli mcp add nmr-walkthrough -s user -- node /绝对路径/server.mjs`。项目级位置是 `.mcp.json` 和 `.qoder/skills/`。
 - WorkBuddy：也可以在"插件 → MCP 服务器 → 配置 MCP"里粘贴。Skill 也可以把 `SKILL.md` 拖进对话导入。
+- CodeBuddy：项目级位置是项目里的 `.mcp.json` 和 `.codebuddy/skills/`。
+- 文心快码：如果没有自动出现，在右上角"···"→ MCP →"手动配置"里粘贴。项目级位置是 `.comate/mcp.json` 和 `.comate/skills/`。
+- Kimi Code CLI：设置了 `KIMI_CODE_HOME` 时以它为准。在 `kimi` 里运行 `/mcp-config` 可以检查服务器。项目级位置是 `.kimi-code/mcp.json` 和 `.kimi-code/skills/`。旧版 Kimi CLI 已归档，请用 Kimi Code。
+- Trae：界面提示"命令中不能包含空格"，所以请把仓库放在没有空格的路径下。
+- iFlow CLI 已于 2026 年 4 月停止服务，所以没有适配。
 
 ### DeepSeek Harness（DSH）
 
@@ -107,7 +147,7 @@ dsh plugin --profile desktop add github:FelixJiashengFu/nmr-walkthrough
 
 豆包工作在自己的界面里添加技能和连接器，不读配置文件。分两步，第一步就够用。
 
-**1. 上传技能（必做）。** 打开豆包电脑版，进入"技能 · 连接器 · 伙伴"，在"我的技能"里点右上角"新建 → 上传技能"，把仓库里的这个文件夹拖进去：
+**1. 上传技能（必做）。** 打开豆包电脑版，进入"技能 · 连接器 · 伙伴"，在"我的技能"里点右上角"新建 → 上传技能"，把仓库里的这个文件夹拖进去（或者用 Releases 里的 `nmr-step-walkthrough-skill.zip` 解压出来的文件夹）：
 
 ```
 standalone-skill/nmr-step-walkthrough
@@ -126,10 +166,11 @@ node server.mjs --http 8765
 ### 适配情况说明 / Compatibility notes
 
 - MCP 服务器支持 stdio 和 HTTP（Streamable HTTP，`/mcp`）两种方式，自检和协议握手已在本仓库测试（`npm test`）。安装脚本对每种工具写出的文件也已测试。
-- 各工具的配置路径取自它们的官方文档（Codex、Antigravity、Qoder，以及 WorkBuddy 的 MCP 部分）。WorkBuddy 的 Skill 目录 `~/.workbuddy/skills/` 来自社区文章，官方文档没有写明。
+- 各工具的配置路径取自它们的官方文档。以下几处官方文档没写清楚，用的是社区文章或通用位置：WorkBuddy 的 Skill 目录；Windsurf、Trae 没有写明 Skill 目录，所以放在通用的 `~/.agents/skills/`；文心快码只写了 MCP 文件位置和"手动配置"入口，JSON 写法按通用格式；Cherry Studio 的 MCP 帮助页写这份说明时打不开，只给出通用步骤。
+- Qwen Code 的扩展转换、CodeBuddy 兼容 Claude Code 插件，都来自它们的文档描述，还没有实机验证。
 - DeepSeek Harness 的插件按现有 DSH 0.2.x 插件的结构编写，还没有在真实的 DSH 里运行验证。DSH 仍是开发者预览版，接口可能变化。
 - 豆包工作的官方帮助中心是动态页面，写这份说明时读不到正文。上面的菜单名称和步骤取自第三方教程；它是否支持本机命令方式（stdio）的连接器、能否访问 `127.0.0.1`、上传的技能里的脚本在本机还是云端运行，都没有查到官方说法，所以把自带生成器的技能作为主要方式。
-- 在这七个工具里的实际加载效果还没有逐个实机测试。遇到问题请提 issue。
+- 这些工具里的实际加载效果还没有逐个实机测试。遇到问题请提 issue。
 
 ## 使用 / Use
 
@@ -168,6 +209,8 @@ node server.mjs --build examples/vanillin.json vanillin.html --standalone
 - `standalone-skill/` 自带生成器的完整版技能（由 `scripts/pack-skill.mjs` 生成，给只能上传技能文件夹的工具用）
 - `scripts/install.mjs` 各工具的安装脚本，`scripts/test.mjs` 自检
 - `.claude-plugin/`、`.mcp.json` Claude Code 插件；`dsh/`、`cordis.patch.yml` DeepSeek Harness 插件
+- `gemini-extension.json`、`GEMINI.md` Gemini CLI / Qwen Code 扩展；`manifest.json` Claude Desktop 扩展（由 `scripts/pack-mcpb.mjs` 打包）；`server.json` MCP Registry 登记信息
+- `.github/workflows/` 自动测试和发布（推送 `v*` 标签时生成 Release）
 
 ## 致谢 / Credits
 
